@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Homepage</title>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+    </head>
+    <body>
+        <h1>Some content</h1>
+        <ul>
+            <li>Navigation bar  (redirect)</li>
+            <li>Gallery</li>
+            <li>div non-interactive container  (redirect)</li>
+            <li>Notes blog -- see more</li>
+            <li>Feedback/rating ???</li>
+            <li>Purchase button (redirect)</li>
+            <li>footer</li>
+        </ul>
+    </body>
+</html>
