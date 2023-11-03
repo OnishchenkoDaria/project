@@ -31,36 +31,27 @@ app.get('/', (req, res) => {
 })
 
 app.post('/adduser', (req, res) => {
-    if(!db){
-        db.query('CREATE DATABASE users', err => {
-            if(err){
-                throw err
-            }
-            console.log('Database created')
-        }) 
-        
-        let sql = 'CREATE TABLE users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
-            db.query(sql, err => {
-                if(err){
-                    throw err
-                }
-                console.log('users table created')
-            })
-    }
-    else{
-        var username = req.body.userlogin;
-        var useremail = req.body.useremail;
-        var userpassword = req.body.userpassword;
+    
+    let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
+    db.query(table, err => {
+        if(err){
+        throw err
+        }
+        console.log('users table created')
+    })
 
-        let post = {name: username , password: userpassword, email: useremail}
-        let sql = 'INSERT INTO users SET ?'
-        let query = db.query(sql,post, err => {
-            if(err){
-                throw err
-            }
-            res.sendFile(__dirname + "/account-page.html")
-        })
-    }
+    var username = req.body.userlogin;
+    var useremail = req.body.useremail;
+    var userpassword = req.body.userpassword;
+
+    let post = {name: username , password: userpassword, email: useremail}
+    let sql = 'INSERT INTO users SET ?'
+    let query = db.query(sql,post, err => {
+        if(err){
+            throw err
+        }
+        res.sendFile(__dirname + "/account-page.html")
+    })
     
 })
 
