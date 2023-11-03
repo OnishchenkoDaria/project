@@ -6,7 +6,18 @@
         <title>Homepage</title>
         <link rel="stylesheet" type="text/css" href="styles.css" />
     </head>
+
+    <noscript>Your browser does not support JS</noscript>
+
     <body>
+
+        <div class="topnav">
+            <a class="active" href="index.html">Home</a>
+            <a href="register.html">Register</a>
+            <a href="log_in.html">Log In</a>
+            <a href="account-page.html">Account</a>
+        </div>
+
         <h1>Some content</h1>
         <ul>
             <li>Navigation bar  (redirect)</li>
@@ -16,8 +27,8 @@
             <li>Feedback/rating ???</li>
             <li>Purchase button (redirect)</li>
             <li>footer</li>
-            <br>
-            <a href="register.html">Registrate</a>
         </ul>
+        <br>
+        <button onclick="window.location.replace('register.html')" id="toRegister">Register</button>
     </body>
 </html>

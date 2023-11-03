@@ -37,7 +37,7 @@ app.post('/adduser', (req, res) => {
         if(err){
         throw err
         }
-        console.log('users table created')
+        //console.log('users table created')
     })
 
     var username = req.body.userlogin;
@@ -54,6 +54,19 @@ app.post('/adduser', (req, res) => {
     })
     
 })
+
+/*app.post('/check/:id', async(req, res) => {
+    const checkname = req.body.checkname;
+    const checkpassword = req.body.checkpassword;
+    
+    let sql = `SELECT name,password FROM users WHERE id = ${req.params.id}`;
+    let query = db.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        console.log(results)
+    });
+});*/
 
 app.listen(3000, ()=>{
     console.log("Running on port 3000")

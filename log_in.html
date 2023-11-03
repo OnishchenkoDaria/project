@@ -7,15 +7,25 @@
         <link rel="stylesheet" type="text/css" href="styles.css" />
     </head>
     <body>
+
+        <div class="topnav">
+            <a href="index.html">Home</a>
+            <a href="register.html">Register</a>
+            <a class="active" href="log_in.html">Log In</a>
+            <a href="account-page.html">Account</a>
+        </div>
+
         <div class="frame1">
-            <label for="login">Login: </label>
-            <form>
-                <input type="text" id="login" placeholder="login">
-            </form>
-            
-            <form>
-                <input type="text" id="passowrd" placeholder="password">
-            </form>
+
+            <form method="POST" action="/check">
+                <label for="checklogin" >Username: </label>
+                <input type="text" name="checklogin" placeholder="User" required minlength="3" maxlength="20">
+                <br>
+    
+                <label for="checkpassword">Password</label>
+                    <input type="password" name="checkpassword" placeholder="1234" required minlength="3" maxlength="20">
+                <br>
+                <input class="subscribe-button" type="submit" value="Submit">
         </div>
         <div class="frame1">
             <p>Do not have an account?</p>

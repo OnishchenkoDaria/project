@@ -6,27 +6,33 @@
         <title>Register</title>
         <link rel="stylesheet" type="text/css" href="styles.css" />
     </head>
-        <!--<script src="./register.js" type="text/javascript" async></script> -->
+    
     <noscript>Your browser does not support JS</noscript>
     
     <body>
+
+        <div class="topnav">
+            <a href="index.html">Home</a>
+            <a class="active" href="register.html">Register</a>
+            <a href="log_in.html">Log In</a>
+            <a href="account-page.html">Account</a>
+        </div>
+
         <div class="frame1">
             
             <form method="POST" action="/adduser">
 
                 <label for="userlogin" >Username: </label>
-                    <input type="text" name="userlogin" placeholder="User" required minlength="3" maxlength="15">
-                
+                    <input type="text" name="userlogin" placeholder="User" required minlength="3" maxlength="20">
+                <br>
                 <label for="useremail" >Your email: </label>
-                    <input type="email" name="useremail" placeholder="Email@email.com" required>
-
+                    <input type="email" name="useremail" placeholder="Email@email.com" required minlength="3" maxlength="20">
+                <br>
                 <label for="userpassword">Password</label>
-                    <input type="password" name="userpassword" placeholder="1234" required minlength="3" maxlength="15">
-                
-                <input class="subscribe-button" type="submit" value="Submit">
+                    <input type="password" name="userpassword" placeholder="1234" required minlength="3" maxlength="20">
+                <br>
+                <input class="subscribe-button" type="submit" value="Submit" id="register" onclick="alert('Registration successful!')">
             </form>
-
-                
 
             <p>
                 You can <a href="log_in.html">Log in</a>
@@ -34,36 +40,6 @@
                 if Your account already exist.
             </p>
         </div>
-
-        <script>
-            // Include client-side JavaScript here to send requests to the Node.js server
-            /*document.getElementById('registration-form').addEventListener('submit', function(event) {
-                console.log("star");
-                event.preventDefault();
-                const login = document.getElementById("login").value;
-                const password = document.getElementById("password").value;
-    
-                fetch('/adduser', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ login, password })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message === 'Registered') {
-                        window.location.href="account-page.html";
-                    } else {
-                        console.log("Erorr")
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Handle network error
-                });
-            });*/
-         </script>
 
         <!-- The pop up window "Your registration is successfull"-->
         <!-- Add !!optional!! forms where user can write more about one self
