@@ -3,7 +3,7 @@ import { useState } from 'react'
 //import viteLogo from '/vite.svg'
 import './App.css'
 import Form from './components/Form'
-
+const baseUrl = 'http://localhost:3001/api/notes'
 
 
 const App = () => {

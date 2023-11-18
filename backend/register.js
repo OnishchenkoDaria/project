@@ -75,8 +75,10 @@ app.listen(3000, ()=>{
 //console.log('hello world')
 const express = require('express')
 //const http = require('http')
+const cors = require('cors')
 app = express()
 
+app.use(cors())
 app.use(express.json())
 
 let notes = [
