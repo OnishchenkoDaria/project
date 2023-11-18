@@ -1,4 +1,4 @@
-const express = require('express')
+/*{const express = require('express')
 const { error } = require('console')
 const bodyParser = require('body-parser')
 const mysql = require('mysql');
@@ -67,7 +67,44 @@ app.post('/adduser', (req, res) => {
         console.log(results)
     });
 });*/
-
+/*
 app.listen(3000, ()=>{
     console.log("Running on port 3000")
-})
+})}*/
+
+//console.log('hello world')
+const express = require('express')
+//const http = require('http')
+app = express()
+
+let notes = [
+    {
+      id: 1,
+      content: "HTML is easy",
+      important: true
+    },
+    {
+      id: 2,
+      content: "Browser can execute only JavaScript",
+      important: false
+    },
+    {
+      id: 3,
+      content: "GET and POST are the most important methods of HTTP protocol",
+      important: true
+    }
+  ]
+
+  app.get('/', (req,res) => {
+    res.send('<h1>Hello</h1>')
+  })
+
+  app.get('/api/notes', (req,res) => {
+    res.json(notes)
+  })
+  
+  const PORT = 3000
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })
+  
