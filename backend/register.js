@@ -72,57 +72,69 @@ app.listen(3000, ()=>{
     console.log("Running on port 3000")
 })}*/
 
-//console.log('hello world')
+//console.log('hello world')//const http = require('http')
+
 const express = require('express')
-//const http = require('http')
+const mysql = require('mysql')
+const bodyParser = require('body-parser')
 const cors = require('cors')
-app = express()
+const { error } = require('console')
+const { errorMonitor } = require('events');
+//const { error } = require('console')
 
-app.use(cors())
-app.use(express.json())
+const app = express();
+app.use(cors());
+//app.use(express.json());
+app.use(bodyParser.json());
 
-let notes = [
-    {
-      id: 1,
-      content: "HTML is easy",
-      important: true
-    },
-    {
-      id: 2,
-      content: "Browser can execute only JavaScript",
-      important: false
-    },
-    {
-      id: 3,
-      content: "GET and POST are the most important methods of HTTP protocol",
-      important: true
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'users'
+})
+
+db.connect(err => {
+    if (err) {
+        console.error('MySQL Connection Error:', err);
+        throw err;
     }
-  ]
+    console.log('MySQL Connected');
+});
 
-  app.get('/', (req,res) => {
-    res.send('<h1>Hello</h1>')
-  })
 
-  /*app.get('/api/notes', (req,res) => {
-    res.json(notes)
-  })
+app.get('/', (req,res) => {
+   res.send('<h1>Works</h1>')
+})
 
-  app.get('/api/notes/:id', (req,res) => {
-    const id = Number(req.params.id)
-    console.log(id)
-    const note = notes.find(note => note.id === id)
-    //console.log(note)
-    if(note){
-        res.json(note)
-    }
-    else {
-        res.status(404).end()
-    }
-        
-  })*/
-  
-  const PORT = 3000
-  app.listen(PORT, () => {
+app.post('/add', (req,res) => { 
+    console.log('success')
+    //console.log(req.body.name, req.body.email, req.body.password)
+    const name = req.body.name
+    const email = req.body.email
+    const password = req.body.password
+
+    let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
+    db.query(table, err => {
+        if(err){
+        throw err
+        }
+        //console.log('users table created')
+    })
+
+    let post = {name: name , password: email, email: password}
+    let sql = 'INSERT INTO users SET ?'
+    let query = db.query(sql,post, err => {
+        if(err){
+            throw err
+        }
+        res.send('<p>user added</p>')
+    })
+
+})
+
+const PORT = 3001
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
-  })
+})
   
