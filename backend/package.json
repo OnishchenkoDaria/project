@@ -4,7 +4,8 @@
   "description": "",
   "main": "register.js",
   "scripts": {
-    "start":"node register.js",
+    "start": "node register.js",
+    "dev":"nodemon register.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,5 +16,8 @@
     "express": "^4.18.2",
     "fastify": "^4.24.3",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

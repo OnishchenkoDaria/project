@@ -77,6 +77,8 @@ const express = require('express')
 //const http = require('http')
 app = express()
 
+app.use(express.json())
+
 let notes = [
     {
       id: 1,
@@ -99,9 +101,23 @@ let notes = [
     res.send('<h1>Hello</h1>')
   })
 
-  app.get('/api/notes', (req,res) => {
+  /*app.get('/api/notes', (req,res) => {
     res.json(notes)
   })
+
+  app.get('/api/notes/:id', (req,res) => {
+    const id = Number(req.params.id)
+    console.log(id)
+    const note = notes.find(note => note.id === id)
+    //console.log(note)
+    if(note){
+        res.json(note)
+    }
+    else {
+        res.status(404).end()
+    }
+        
+  })*/
   
   const PORT = 3000
   app.listen(PORT, () => {
