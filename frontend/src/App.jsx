@@ -46,11 +46,11 @@ const App = () => {
   return (
     <>
     <form onSubmit={handleSubmit}>
-      <input name="name" value={formInput.name} onChange={handleChange} placeholder="Name" required/>
+      <input name="name" value={formInput.name} onChange={handleChange} placeholder="Name" required />
       <br/>
       <input name="email" value={formInput.email} onChange={handleChange} placeholder="Email" required/>
       <br/>
-      <input name="password" value={formInput.password} onChange={handleChange} placeholder="Password" required/>
+      <input name="password" value={formInput.password} onChange={handleChange} placeholder="Password" autoComplete='off' required/>
       <br/>
       <button type="submit">Submit</button>
       <br/>

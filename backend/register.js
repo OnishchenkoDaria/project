@@ -78,15 +78,15 @@ const express = require('express')
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const { error } = require('console')
-const { errorMonitor } = require('events');
 //const { error } = require('console')
+//const { errorMonitor } = require('events')
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(cors());
-//app.use(express.json());
 app.use(bodyParser.json());
 
+//creating our mysql database + connecting it with node (next function)
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -107,28 +107,55 @@ app.get('/', (req,res) => {
    res.send('<h1>Works</h1>')
 })
 
+//asynchronious function for hashing passwords (returns promise ---> handle with .then)
+async function Hashing(originalPassword) {
+    const saltRounds = 10
+    return bcrypt.hash(originalPassword, saltRounds)
+    .then((hashedPassword) => {
+            return hashedPassword
+        })
+
+    //catching errors
+    .catch((err) => {
+        throw err
+    })
+}
+
+//registrating user - adding him to database (input checks: no, hashing: yes))
 app.post('/add', (req,res) => { 
     console.log('success')
-    //console.log(req.body.name, req.body.email, req.body.password)
+    
     const name = req.body.name
     const email = req.body.email
     const password = req.body.password
 
+    //creating a table on the db if there is no
     let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
     db.query(table, err => {
         if(err){
         throw err
         }
-        //console.log('users table created')
+        console.log('users table created')
     })
 
-    let post = {name: name , password: email, email: password}
-    let sql = 'INSERT INTO users SET ?'
-    let query = db.query(sql,post, err => {
-        if(err){
-            throw err
-        }
-        res.send('<p>user added</p>')
+    //handling hashing
+    Hashing(password)
+    .then((newHashedPassword) => {
+        console.log(newHashedPassword)
+        //initialization of the post object ---> inserting into mysql table with post
+        let post = {name: name , password: newHashedPassword, email: email}
+        
+        //mysql syntax for inserting
+        let sql = 'INSERT INTO users SET ?'
+        let query = db.query(sql,post, err => {
+            if(err){
+                throw err
+            }
+            console.log('user added!')
+        })
+    })
+    .catch((error) => {
+        console.error(error);
     })
 
 })
