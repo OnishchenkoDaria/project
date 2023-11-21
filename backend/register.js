@@ -78,13 +78,12 @@ const express = require('express')
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-//const { error } = require('console')
 //const { errorMonitor } = require('events')
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt")
+//const { error } = require('console')
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+
+
 
 //creating our mysql database + connecting it with node (next function)
 const db = mysql.createConnection({
@@ -102,6 +101,17 @@ db.connect(err => {
     console.log('MySQL Connected');
 });
 
+let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
+    db.query(table, err => {
+        if(err){
+        throw err
+        }
+        console.log('users table created')
+});
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
 app.get('/', (req,res) => {
    res.send('<h1>Works</h1>')
@@ -121,6 +131,30 @@ async function Hashing(originalPassword) {
     })
 }
 
+/*async function checkEmailFunction(emailTry) {
+    let checkEmail = 'SELECT email FROM users'
+    const index = db.query(checkEmail, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        console.log("emails are: " , results)
+        //console.log(results[0].email)
+        if(results){
+            results.forEach((element) => {
+                //console.log(element)
+                if(email === element.email){
+                    console.log('found')
+                    throw err
+                }
+                else{
+                    console.log('free email') 
+                }
+            })
+        }
+    }); 
+    return true
+}*/
+
 //registrating user - adding him to database (input checks: no, hashing: yes))
 app.post('/add', (req,res) => { 
     console.log('success')
@@ -129,36 +163,74 @@ app.post('/add', (req,res) => {
     const email = req.body.email
     const password = req.body.password
 
-    //creating a table on the db if there is no
-    let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
-    db.query(table, err => {
-        if(err){
-        throw err
+    let emailChekckCall = `SELECT email FROM users`
+    db.query(emailChekckCall, (error, results) => {
+        if(error){
+            throw error
         }
-        console.log('users table created')
+        console.log('results are: ', results)
+        console.log(results[0].email)
+
+        results.forEach((element) => {
+            console.log(element);
+            if(element.email === email){
+                console.log(element)
+                console.log('found matching email')
+                return res.status(409).json({ error: 'email in use' });
+            }
+            else{
+                console.log('free email')
+            }
+        })
     })
 
     //handling hashing
+    
     Hashing(password)
-    .then((newHashedPassword) => {
-        console.log(newHashedPassword)
-        //initialization of the post object ---> inserting into mysql table with post
-        let post = {name: name , password: newHashedPassword, email: email}
-        
-        //mysql syntax for inserting
-        let sql = 'INSERT INTO users SET ?'
-        let query = db.query(sql,post, err => {
-            if(err){
-                throw err
-            }
-            console.log('user added!')
+        .then((newHashedPassword) => {
+            console.log(newHashedPassword)
+            //initialization of the post object ---> inserting into mysql table with post
+            let post = {name: name , password: newHashedPassword, email: email}
+            
+            //mysql syntax for inserting
+            let sql = 'INSERT INTO users SET ?'
+            db.query(sql,post, err => {
+                if(err){
+                    throw err;
+                }
+                console.log('user added!')
+            })
+            //res.status(201)
         })
-    })
-    .catch((error) => {
-        console.error(error);
-    })
-
+        .catch((error) => {
+            console.error(error);
+            return res.status(409).json({ error: 'hashing error' });
+        })    
 })
+
+/*const emailTry = 'user@gmail.com'
+
+let checkEmail = 'SELECT email FROM users'
+db.query(checkEmail, (err, results) => {
+    if (err) {
+        throw err;
+    }
+    //console.log("emails are: " , results)
+    //console.log(results[0].email)
+    results.forEach((element) => {
+        //console.log(element)
+        if(emailTry === element.email){
+            console.log('found')
+        }
+        else{
+            console.log('free email')
+            //res.status(404)
+        }
+    })
+});*/
+//console.log(checkEmail)
+//додай функцію РОЗХЕШУВАННЯ вже у самому алгоритмі автентифікації користувача
+//Done додай перевірку на НЕ ІДЕНТИЧНІСТЬ пошт - праолі і імена не чіпай, вони можуть повторюватись
 
 const PORT = 3001
 app.listen(PORT, () => {

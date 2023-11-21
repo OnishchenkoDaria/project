@@ -30,7 +30,13 @@ const App = () => {
     
     axios
       .post(baseUrl+'add',formInput)
-      .then(console.log("user added"))
+      .then(function(res) {
+        console.log(res , "user added!")
+      })
+      .catch(function(error){
+        console.log(error , 'failed registration')
+      })
+      
     /*useEffect(() => {
       userService.addUser(formInput)
     }, [])*/
