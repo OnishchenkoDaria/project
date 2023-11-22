@@ -30,11 +30,21 @@ const App = () => {
     
     axios
       .post(baseUrl+'add',formInput)
-      .then(function(res) {
-        console.log(res.data , "user added!")
+      .then((res) => {
+        console.log(res.data.message)
       })
-      .catch(function(error){
-        console.log(error.data , "registration failed")
+      .catch((error) => {
+        if (error.response){
+          console.error('server send back an error status:', error.response.status);
+          console.error('error message from server:', error.response.data.error);
+        }
+        else if (error.request){
+          console.error('no response received from the server');
+        }
+        else{ 
+          console.error('error during request setup:', error.message);
+        }
+        //console.log(<p>{error.data}</p> , "registration failed");
       })
       
     /*useEffect(() => {
@@ -59,6 +69,7 @@ const App = () => {
       <input name="password" value={formInput.password} onChange={handleChange} placeholder="Password" autoComplete='off' required/>
       <br/>
       <button type="submit">Submit</button>
+      <p></p>
       <br/>
     </form>
     </>

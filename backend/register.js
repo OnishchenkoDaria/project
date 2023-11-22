@@ -176,7 +176,9 @@ app.post('/add', (req,res) => {
             db.query(sql,post, (err) => {
                 if(err){
                     if (err.code === 'ER_DUP_ENTRY') {
+                        //add delete function with sql syntaxis
                         return res.status(409).json({ error: 'email in use' });
+                        
                     } else {
                         throw err;
                     }
