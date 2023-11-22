@@ -155,13 +155,28 @@ async function Hashing(originalPassword) {
     return true
 }*/
 
+function deleteUserString(email){
+    let sql = `DELETE FROM users WHERE email = '${email}'`
+    db.query(sql, (err)=>{
+        if(err){
+            console.log('delete wrong registration error')
+            throw err
+        }
+        console.log('delete wrong registration success')
+    })
+
+}
+
 //registrating user - adding him to database (input checks: no, hashing: yes))
 app.post('/add', (req,res) => { 
     console.log('success')
     
-    const name = req.body.name
-    const email = req.body.email
-    const password = req.body.password
+    const name = req.body.username
+    console.log(name)
+    const email = req.body.useremail
+    console.log(email)
+    const password = req.body.userpassword
+    console.log(password)
 
     //handling hashing
     
@@ -176,7 +191,7 @@ app.post('/add', (req,res) => {
             db.query(sql,post, (err) => {
                 if(err){
                     if (err.code === 'ER_DUP_ENTRY') {
-                        //add delete function with sql syntaxis
+                        //add delete function with sql syntaxis ??? - does not work
                         return res.status(409).json({ error: 'email in use' });
                         
                     } else {
@@ -186,7 +201,7 @@ app.post('/add', (req,res) => {
                 console.log('user added!')
                 res.status(201).json({ message: 'user added' });
             })
-            //res.status(201)
+            //res.status(201)*/
         })
         .catch((error) => {
             console.error(error);
@@ -203,3 +218,20 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
   
+
+/*const email = 'user2@gmail.com'
+
+db.query(`INSERT INTO users(email) VALUES ('${email}')`, (err) => {
+    if(err){
+        if(err.code === 'ER_DUP_ENTRY'){
+            console.log('email check not passed')
+            //return res.sendStatus(409).json({error: 'email in use'})
+        }
+        else{
+            throw err
+        }
+    }
+    console.log('email check passed');
+    //res.status(201).json({ message: 'user added' })
+})*/
+
