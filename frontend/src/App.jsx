@@ -31,10 +31,10 @@ const App = () => {
     axios
       .post(baseUrl+'add',formInput)
       .then(function(res) {
-        console.log(res , "user added!")
+        console.log(res.data , "user added!")
       })
       .catch(function(error){
-        console.log(error , 'failed registration')
+        console.log(error.data , "registration failed")
       })
       
     /*useEffect(() => {
