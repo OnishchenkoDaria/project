@@ -25,7 +25,8 @@ db.connect(err => {
     console.log('MySQL Connected');
 });
 
-let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255) UNIQUE, PRIMARY KEY(id))'
+//old version: CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255) UNIQUE, PRIMARY KEY(id))
+let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCHAR (255), password VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
     db.query(table, err => {
         if(err){
         throw err
@@ -55,30 +56,6 @@ async function Hashing(originalPassword) {
     })
 }
 
-/*async function checkEmailFunction(emailTry) {
-    let checkEmail = 'SELECT email FROM users'
-    const index = db.query(checkEmail, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        console.log("emails are: " , results)
-        //console.log(results[0].email)
-        if(results){
-            results.forEach((element) => {
-                //console.log(element)
-                if(email === element.email){
-                    console.log('found')
-                    throw err
-                }
-                else{
-                    console.log('free email') 
-                }
-            })
-        }
-    }); 
-    return true
-}*/
-
 function deleteUserString(email){
     let sql = `DELETE FROM users WHERE email = '${email}'`
     db.query(sql, (err)=>{
@@ -96,12 +73,20 @@ app.post('/add', (req,res) => {
     console.log('success')
     
     const name = req.body.username
-    console.log(name)
     const email = req.body.useremail
-    console.log(email)
     const password = req.body.userpassword
-    console.log(password)
 
+    // mysql syntax meaning : finding a matching email in the table with the recieved email
+    const checkEmailQuery = `SELECT * FROM users WHERE email = '${email}'`;
+    db.query(checkEmailQuery, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'server error' });
+        }
+        // if found => result of matching search is not zero but email(s)
+        if (result.length > 0) {
+            return res.status(409).json({ error: 'email in use' });
+        }
+   
     //handling hashing
     
     Hashing(password)
@@ -114,14 +99,9 @@ app.post('/add', (req,res) => {
             let sql = 'INSERT INTO users SET ?'
             db.query(sql,post, (err) => {
                 if(err){
-                    if (err.code === 'ER_DUP_ENTRY') {
-                        //add delete function with sql syntaxis ??? - does not work
-                        return res.status(409).json({ error: 'email in use' });
-                        
-                    } else {
-                        throw err;
-                    }
+                    throw err
                 }
+                //success case
                 console.log('user added!')
                 res.status(201).json({ message: 'user added' });
             })
@@ -130,7 +110,9 @@ app.post('/add', (req,res) => {
         .catch((error) => {
             console.error(error);
             return res.status(500).json({ error: 'server error' });
-        })    
+        })
+    })  
+
 })
 
 
