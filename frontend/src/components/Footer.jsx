@@ -3,7 +3,7 @@ import "../styles/Footer.css"
 
 const Footer = () => {
   return (
-    <p class="bottomnav">
+    <p className="bottomnav">
         contacts
     </p>
   );

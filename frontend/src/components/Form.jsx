@@ -3,7 +3,12 @@ import userService from '../services/registerForm'
 import "../styles/Form.css"
 
 const RegistrationForm = () => {
-   
+
+    //add states like [registrationSuccess, serRegistrationSuccess]
+    //in case of successful usel registration set the state
+    //redirect using <Link> --- add the ButtonSubmit function which would redirect the user in case of state is true
+    //otherwise not - or even pops up the message what is wrong
+    const [registrationSuccess, setRegistrationSuccess]=useState(false)
     const [formInput, setFormInput] = useState({
             name: '', 
             email:'', 
@@ -40,18 +45,17 @@ const RegistrationForm = () => {
         
     }
     
-
     return(
         <>
-        <form onSubmit={handleSubmit} class="registration-form">
+        <form onSubmit={handleSubmit} className="registration-form">
           <p>Registration</p>
-          <input class="input-field" name="name" value={formInput.name} onChange={handleChange} placeholder="Name" required />
+          <input className="input-field" name="name" value={formInput.name} onChange={handleChange} placeholder="Name" required />
           <br/>
-          <input class="input-field" name="email" value={formInput.email} onChange={handleChange} placeholder="Email" required/>
+          <input className="input-field" name="email" value={formInput.email} onChange={handleChange} placeholder="Email" required/>
           <br/>
-          <input class="input-field" name="password" value={formInput.password} onChange={handleChange} placeholder="Password" autoComplete='off' required/>
+          <input className="input-field" name="password" value={formInput.password} onChange={handleChange} placeholder="Password" autoComplete='off' required/>
           <br/>
-          <button class="submit-button" type="submit">Submit</button>
+          <button className="submit-button" type="submit">Submit</button>
           <br/>
         </form>
         </>

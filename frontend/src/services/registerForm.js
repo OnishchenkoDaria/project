@@ -6,6 +6,7 @@ const addUser = newUser => {
         .post(baseUrl+'add', newUser)
         .then((res) => {
             console.log(res.data.message)
+            
         })
         .catch((error) => {
             if (error.response){
