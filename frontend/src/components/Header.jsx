@@ -8,6 +8,7 @@ const Header = () => {
             <div className="topnav">
                 <p><Link to={PathConstants.HOME}>Homepage</Link></p>
                 <p><Link to={PathConstants.REGISTRATION}>Register</Link></p>
+                <p><Link to={PathConstants.LOGIN}>Login</Link></p>
             </div>
       </header>
     );

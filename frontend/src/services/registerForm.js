@@ -6,8 +6,7 @@ const addUser = async (newUser ) => {
     
     //if post call is success the next code is executed
     try{
-        console.log((await result).data.message)
-               
+        console.log((await result).data.message)        
         console.log('The user created is ', newUser) 
     }
 
@@ -27,9 +26,33 @@ const addUser = async (newUser ) => {
         
 }
 
-export default{
-    addUser
+const loginUser = async (newUser) => {
+    const result = axios.post(baseUrl+'log-in', newUser)
+    try{
+        console.log((await result).data.message)
+        console.log('Successful login ', newUser)
+    }
+    catch(error){
+        if (error.response){
+            console.error('server send back an error status:', error.response.status);
+            console.error('error message from server:', error.response.data.error);
+        }
+        else if (error.request){
+            console.error('no response received from the server');
+        }
+        else{ 
+           console.error('error during request setup:', error.message);
+        }
+    }
 }
+
+
+export default{
+    addUser: addUser,
+    loginUser: loginUser
+}
+
+
 
 /*
 axios

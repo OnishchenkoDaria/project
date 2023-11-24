@@ -7,8 +7,6 @@ const bcrypt = require("bcrypt")
 //const { error } = require('console')
 
 
-
-
 //creating our mysql database + connecting it with node (next function)
 const db = mysql.createConnection({
     host: 'localhost',
@@ -68,7 +66,7 @@ function deleteUserString(email){
 
 }
 
-//registrating user - adding him to database (input checks: no, hashing: yes))
+//try to refactor it in further
 app.post('/add', (req,res) => { 
     console.log('success')
     
@@ -105,7 +103,6 @@ app.post('/add', (req,res) => {
                 console.log('user added!')
                 res.status(201).json({ message: 'user added' });
             })
-            //res.status(201)*/
         })
         .catch((error) => {
             console.error(error);
@@ -115,11 +112,49 @@ app.post('/add', (req,res) => {
 
 })
 
+async function isMatch(FoundPassword, password, res){
+    try{
+        //the order of input into bcrypt matters!
+        // 1st - not hashed password (from user input) , 2nd - hashed (from db)
+        const Match = await bcrypt.compare(password, FoundPassword)
+        console.log(Match)
+        if(Match === true){
+            return res.status(201).json({ message: 'login passed' })
+        }
+        else{
+            return res.status(409).json({ error: 'login failed' });
+        }
+    } 
+    catch(err){
+        console.log("alert!")
+        console.error(err)
+        return res.status(500).json({ error: 'server error' })
+    }
+}
 
-//додай функцію РОЗХЕШУВАННЯ вже у самому алгоритмі автентифікації користувача
+app.post('/log-in', (req,res) => {
+    console.log('login enter success')
+    const email = req.body.useremail
+    const password = req.body.userpassword
+
+    const checkEmailQuery = `SELECT * FROM users WHERE email = '${email}'`;
+        db.query(checkEmailQuery, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'server error' });
+            }
+            var string=JSON.stringify(result);
+            var json =  JSON.parse(string)
+            console.log(json)
+            const found = json[0].password
+            console.log("1: ", password , "2: " , found) 
+            isMatch(found, password, res)
+        })
+})
 
 
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+
+
