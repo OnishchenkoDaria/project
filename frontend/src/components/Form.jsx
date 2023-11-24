@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import userService from '../services/registerForm'
 import "../styles/Form.css"
+import { useNavigate } from 'react-router-dom'
+import PathConstants from '../routes/pathConstants'
 
 const RegistrationForm = () => {
 
+    const navigate = useNavigate();
+    const [registered, setRegistered]=useState(false) 
     //add states like [registrationSuccess, serRegistrationSuccess]
     //in case of successful usel registration set the state
     //redirect using <Link> --- add the ButtonSubmit function which would redirect the user in case of state is true
     //otherwise not - or even pops up the message what is wrong
-    const [registrationSuccess, setRegistrationSuccess]=useState(false)
+    
     const [formInput, setFormInput] = useState({
             name: '', 
             email:'', 
@@ -22,21 +26,30 @@ const RegistrationForm = () => {
         // console.log(formInput)
     }
 
-    const handleSubmit = (par) => {
-        par.preventDefault()
-        console.log(formInput)
-        
-        function newUser() {
-            this.username = formInput.name;
-            this.useremail= formInput.email;
-            this.userpassword = formInput.password;
-        }
-        const UserInfo = new newUser()
+    const handleSubmit = async (par) => {
+        try{
+            par.preventDefault()
+            console.log(formInput)
+            
+            function newUser() {
+                this.username = formInput.name;
+                this.useremail= formInput.email;
+                this.userpassword = formInput.password;
+            }
+            const UserInfo = new newUser()
 
-        console.log('UserInfo',UserInfo)
+            console.log('UserInfo',UserInfo)
+            
+            const response = await userService.addUser(UserInfo)
+            console.log("Recieved" , response)
+            navigate(PathConstants.HOME)
+        }
+        catch(err){
+           throw err
+        }
         
-        userService.addUser(UserInfo)
         
+        console.log("here")
         setFormInput({
             name: '', 
             email:'', 
