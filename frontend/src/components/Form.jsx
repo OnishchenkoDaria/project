@@ -7,12 +7,7 @@ import PathConstants from '../routes/pathConstants'
 const RegistrationForm = () => {
 
     const navigate = useNavigate();
-    const [registered, setRegistered]=useState(false) 
-    //add states like [registrationSuccess, serRegistrationSuccess]
-    //in case of successful usel registration set the state
-    //redirect using <Link> --- add the ButtonSubmit function which would redirect the user in case of state is true
-    //otherwise not - or even pops up the message what is wrong
-    
+        
     const [formInput, setFormInput] = useState({
             name: '', 
             email:'', 
@@ -22,11 +17,10 @@ const RegistrationForm = () => {
     const handleChange = (par) => {
         const{name , value} = par.target
         setFormInput({...formInput, [name]:value})
-    
-        // console.log(formInput)
     }
 
     const handleSubmit = async (par) => {
+        //calling post req with async for proper function fulfillment order
         try{
             par.preventDefault()
             console.log(formInput)
@@ -38,14 +32,22 @@ const RegistrationForm = () => {
             }
             const UserInfo = new newUser()
 
-            console.log('UserInfo',UserInfo)
+            //creating object from state: UserInfo
+            console.log('UserInfo', UserInfo)
             
-            const response = await userService.addUser(UserInfo)
-            console.log("Recieved" , response)
+            //calling axios with object UserInfo
+
+            //const response = await userService.addUser(UserInfo) -- 
+            //does not work as addUser call does not return anything (neither in try, nor in catch)
+            await userService.addUser(UserInfo)
+            console.log("try executed")
             navigate(PathConstants.HOME)
         }
+        //error handling
         catch(err){
-           throw err
+            console.log("catch executed")
+            //console.log(err)
+            throw err
         }
         
         
