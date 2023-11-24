@@ -1,6 +1,7 @@
 const PathConstants = {
     HOME: "/",
-    REGISTRATION: "register"
+    REGISTRATION: "/register",
+    ACCOUNT: "/account-page"
 }
 
 export default PathConstants

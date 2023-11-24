@@ -41,7 +41,7 @@ const RegistrationForm = () => {
             //does not work as addUser call does not return anything (neither in try, nor in catch)
             await userService.addUser(UserInfo)
             console.log("try executed")
-            navigate(PathConstants.HOME)
+            navigate(PathConstants.ACCOUNT)
         }
         //error handling
         catch(err){
