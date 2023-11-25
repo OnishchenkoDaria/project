@@ -5,8 +5,9 @@ const cors = require('cors')
 //const { errorMonitor } = require('events')
 const bcrypt = require("bcrypt")
 //const { error } = require('console')
+const sessions = require('express-session');
 
-
+//header("Access-Control-Allow-Origin: http://localhost:5173");
 //creating our mysql database + connecting it with node (next function)
 const db = mysql.createConnection({
     host: 'localhost',
@@ -33,7 +34,37 @@ let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCH
 });
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true,  // enable passing cookies, authorization headers, etc.
+    methods: 'GET, POST, PUT, DELETE',  // allow specified HTTP methods
+    allowedHeaders: 'Content-Type, *',  // allow specified headers
+};
+app.use(cors(corsOptions));
+
+//session implementation
+const crypto = require('crypto');
+
+const generateSecretKey = () => {
+  return crypto.randomBytes(64).toString('hex');
+};
+
+//console.log(generateSecretKey());
+
+app.use(
+    sessions({
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 //for 24 hours
+        },
+        secret:generateSecretKey(),
+        resave: true,
+        saveUninitialized: false,
+    })
+)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 
 app.get('/', (req,res) => {
@@ -67,7 +98,7 @@ function deleteUserString(email){
 }
 
 //try to refactor it in further
-app.post('/add', (req,res) => { 
+app.post('/add', (req,res) => {
     console.log('success')
     
     const name = req.body.username
@@ -101,6 +132,7 @@ app.post('/add', (req,res) => {
                 }
                 //success case
                 console.log('user added!')
+                req.session.user = post.name
                 res.status(201).json({ message: 'user added' });
             })
         })
@@ -112,13 +144,17 @@ app.post('/add', (req,res) => {
 
 })
 
-async function isMatch(FoundPassword, password, res){
+async function isMatch(FoundPassword, found, res, req){
+    console.log("FoundPassword: ", FoundPassword , "found.password: ",found.password)
     try{
         //the order of input into bcrypt matters!
         // 1st - not hashed password (from user input) , 2nd - hashed (from db)
-        const Match = await bcrypt.compare(password, FoundPassword)
+        const Match = await bcrypt.compare(FoundPassword, found.password)
         console.log(Match)
         if(Match === true){
+            req.session.user = found.name
+            /*const user = req.session.user
+            console.log(user)*/
             return res.status(201).json({ message: 'login passed' })
         }
         else{
@@ -151,12 +187,22 @@ app.post('/log-in', (req,res) => {
             var string=JSON.stringify(result);
             var json =  JSON.parse(string)
             console.log(json)
-            const found = json[0].password
-            console.log("1: ", password , "2: " , found) 
-            isMatch(found, password, res)
+           // const found = json[0].password
+            console.log("1: ", password , "2: " , json[0].password,) 
+            isMatch(password, json[0], res, req)
         })
 })
 
+app.get('/user', (req,res)=> {
+    const user = req.session.user
+    console.log(user)
+    res.json(user || null)
+})
+
+app.post('/log-out', (req, res) => {
+    req.session.destroy();
+    res.send('Logged out');
+  });
 
 const PORT = 3001
 app.listen(PORT, () => {

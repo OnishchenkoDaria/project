@@ -29,6 +29,7 @@ const LoginForm = () => {
             const UserInfo = new newUser()
 
             await userService.loginUser(UserInfo)
+            userService.getUser()
             navigate(PathConstants.ACCOUNT)
         
         }

@@ -1,6 +1,9 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/'
 
+axios.defaults.withCredentials = true; // Include credentials (like cookies) in the request
+axios.defaults.crossDomain = true; // Enable cross-domain requests
+
 const addUser = async (newUser ) => {
     const result = axios.post(baseUrl+'add', newUser)
     
@@ -46,10 +49,31 @@ const loginUser = async (newUser) => {
     }
 }
 
+const getUser = async () => {
+    const result = await axios.get(baseUrl+'user')
+    try{
+        const user = result.data
+        console.log('User:', user)
+    }catch(err){
+        console.error('Get User error:', err)
+    }
+}
+
+const LogOut = async() => {
+    await axios.post(baseUrl+'log-out')
+    try{
+        console.log('Logged out');
+    }catch(err){
+        console.error('Logout error:', error)
+    }
+}
+
 
 export default{
     addUser: addUser,
-    loginUser: loginUser
+    loginUser: loginUser,
+    getUser: getUser,
+     LogOut: LogOut
 }
 
 
