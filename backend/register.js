@@ -122,6 +122,7 @@ async function isMatch(FoundPassword, password, res){
             return res.status(201).json({ message: 'login passed' })
         }
         else{
+            //if passwords did not match
             return res.status(409).json({ error: 'login failed' });
         }
     } 
@@ -142,6 +143,11 @@ app.post('/log-in', (req,res) => {
             if (err) {
                 return res.status(500).json({ error: 'server error' });
             }
+            //if no email in db matched
+            if(result.length === 0){
+                return res.status(409).json({ error: 'email not found' });
+            }
+            //converting data propely into json format
             var string=JSON.stringify(result);
             var json =  JSON.parse(string)
             console.log(json)
@@ -156,5 +162,3 @@ const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
-
-
