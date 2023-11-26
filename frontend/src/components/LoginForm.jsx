@@ -27,11 +27,12 @@ const LoginForm = () => {
             this.userpassword = formInput.password;
             }
             const UserInfo = new newUser()
-
-            await userService.loginUser(UserInfo)
-            userService.getUser()
-            navigate(PathConstants.ACCOUNT)
         
+            const success = await userService.loginUser(UserInfo)
+            userService.getUser()
+            if(success){
+                navigate(PathConstants.ACCOUNT)
+            }
         }
         catch(err){
             console.log("error caught")

@@ -3,7 +3,7 @@ import userService from '../services/registerForm'
 import "../styles/Form.css"
 
 const Account = () => {
-
+  //const navigate = useNavigate();
   //успішне session authentication перевірка
   //пфсля оновлення видає інфу про юзера що зарегався до цього
   //навіть після перелогіну - видає логін вже новозалогіненого юзера
@@ -14,8 +14,8 @@ const Account = () => {
   }
 
   const checkOut = () => {
-    console.log('logging out')
-    userService.LogOut()
+      console.log('logging out')
+      userService.LogOut()
   }
 
   return (

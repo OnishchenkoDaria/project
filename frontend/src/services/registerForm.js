@@ -4,13 +4,14 @@ const baseUrl = 'http://localhost:3001/'
 axios.defaults.withCredentials = true; // Include credentials (like cookies) in the request
 axios.defaults.crossDomain = true; // Enable cross-domain requests
 
-const addUser = async (newUser ) => {
+const addUser = async (newUser) => {
     const result = axios.post(baseUrl+'add', newUser)
     
     //if post call is success the next code is executed
     try{
         console.log((await result).data.message)        
-        console.log('The user created is ', newUser) 
+        console.log('The user created is ', newUser)
+        return true;
     }
 
     //if error is found (f.e. email duplication) - the following is executed
@@ -25,8 +26,8 @@ const addUser = async (newUser ) => {
         else{ 
            console.error('error during request setup:', error.message);
         }
-    }
-        
+        return false;
+    }     
 }
 
 const loginUser = async (newUser) => {
@@ -34,6 +35,7 @@ const loginUser = async (newUser) => {
     try{
         console.log((await result).data.message)
         console.log('Successful login ', newUser)
+        return true
     }
     catch(error){
         if (error.response){
@@ -46,6 +48,7 @@ const loginUser = async (newUser) => {
         else{ 
            console.error('error during request setup:', error.message);
         }
+        return false
     }
 }
 
@@ -59,12 +62,12 @@ const getUser = async () => {
     }
 }
 
-const LogOut = async() => {
+const LogOut = async () => {
     await axios.post(baseUrl+'log-out')
     try{
         console.log('Logged out');
     }catch(err){
-        console.error('Logout error:', error)
+        console.error('Logout error:', err)
     }
 }
 

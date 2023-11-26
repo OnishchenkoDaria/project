@@ -99,6 +99,10 @@ function deleteUserString(email){
 
 //try to refactor it in further
 app.post('/add', (req,res) => {
+    if(req.session.user){
+        console.log('an active session is going')
+        return res.status(409).json({ error: 'an active session exist' });
+    }
     console.log('success')
     
     const name = req.body.username
@@ -170,6 +174,10 @@ async function isMatch(FoundPassword, found, res, req){
 }
 
 app.post('/log-in', (req,res) => {
+    if(req.session.user){
+        console.log('an active session is going')
+        return res.status(409).json({ error: 'an active session exist' });
+    }
     console.log('login enter success')
     const email = req.body.useremail
     const password = req.body.userpassword
