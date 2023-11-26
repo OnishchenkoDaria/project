@@ -62,12 +62,18 @@ const getUser = async () => {
     }
 }
 
-const LogOut = async () => {
-    await axios.post(baseUrl+'log-out')
+const logOut = async () => {
+    console.log('1')
+    const result = axios.post(baseUrl+'log-out')
+    console.log('2')
     try{
+        console.log('3')
+        console.log((await result).data.message)
         console.log('Logged out');
+        return true
     }catch(err){
         console.error('Logout error:', err)
+        return false
     }
 }
 
@@ -76,28 +82,5 @@ export default{
     addUser: addUser,
     loginUser: loginUser,
     getUser: getUser,
-     LogOut: LogOut
+    logOut: logOut
 }
-
-
-
-/*
-axios
-        .post(baseUrl+'add',formInput)
-        .then((res) => {
-            console.log(res.data.message)
-        })
-        .catch((error) => {
-            if (error.response){
-            console.error('server send back an error status:', error.response.status);
-            console.error('error message from server:', error.response.data.error);
-            }
-            else if (error.request){
-            console.error('no response received from the server');
-            }
-            else{ 
-            console.error('error during request setup:', error.message);
-            }
-            //console.log(<p>{error.data}</p> , "registration failed");
-        })
-*/

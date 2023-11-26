@@ -137,6 +137,12 @@ app.post('/add', (req,res) => {
                 //success case
                 console.log('user added!')
                 req.session.user = post.name
+                if(post.email === 'admin@gmail.com'){
+                    req.session.role = 'admin'
+                } else {
+                    req.session.role = 'user'
+                               }
+                               
                 res.status(201).json({ message: 'user added' });
             })
         })
@@ -157,8 +163,13 @@ async function isMatch(FoundPassword, found, res, req){
         console.log(Match)
         if(Match === true){
             req.session.user = found.name
-            /*const user = req.session.user
-            console.log(user)*/
+            //replace with Nastya's email further
+            if(found.email === 'admin@gmail.com'){
+                req.session.role = 'admin'
+            } else{
+                req.session.role = 'user'
+            }
+           
             return res.status(201).json({ message: 'login passed' })
         }
         else{
@@ -203,14 +214,25 @@ app.post('/log-in', (req,res) => {
 
 app.get('/user', (req,res)=> {
     const user = req.session.user
-    console.log(user)
-    res.json(user || null)
+    const role = req.session.role 
+    console.log("user: " , user)
+    console.log("role: " , role)
+    res.json(({user , role }) || null)
 })
 
 app.post('/log-out', (req, res) => {
-    req.session.destroy();
-    res.send('Logged out');
-  });
+    if(!req.session.user){
+        return res.status(409).json({ error: 'no active session to be shut' });
+    } else{
+        req.session.destroy((err) => {
+            if (err) {
+            return res.status(500).json({ error: 'Error destroying session' });
+            }
+            //console.log('Logged out');
+            return res.status(200).json({ message: 'session shut' })
+        });
+    }
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
