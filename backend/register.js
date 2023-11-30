@@ -33,6 +33,43 @@ let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCH
         console.log('users table created')
 });
 
+//adding admain user by default with data from unttracked credentails
+const credentials = require('../credentials')
+
+const AdminUsername = credentials.username
+const AdminPassword = credentials.password
+const AdminEmail = credentials.email
+
+const checkEmpty = `SELECT COUNT(*) AS count FROM users`
+db.query(checkEmpty, (queryErr, results)=> {
+    if(queryErr){
+        console.error('Error executing query ', queryErr)
+    } else{
+        const rowCount = results[0].count
+        if(rowCount === 0){
+            Hashing(AdminPassword)
+            .then((newHashed) => {
+               // console.log(newHashed)
+                const insertAdmin = 'INSERT INTO users (name, password, email) VALUES (?, ?, ?)'
+                const values = [AdminUsername, newHashed, AdminEmail];
+                db.query(insertAdmin, values, (insertErr, results)=> {
+                    if (insertErr) {
+                        console.error('Error inserting user:', insertErr)
+                    } else {
+                        console.log(`User inserted`)
+                    }
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+                return res.status(500).json({ error: 'server error' });
+            })
+        } else {
+            console.log('admin user was already added before')
+        }
+    }
+})
+
 const app = express();
 
 const corsOptions = {
@@ -137,7 +174,7 @@ app.post('/add', (req,res) => {
                 //success case
                 console.log('user added!')
                 req.session.user = post.name
-                if(post.email === 'admin@gmail.com'){
+                if(post.email === AdminEmail){
                     req.session.role = 'admin'
                 } else {
                     req.session.role = 'user'
@@ -164,7 +201,7 @@ async function isMatch(FoundPassword, found, res, req){
         if(Match === true){
             req.session.user = found.name
             //replace with Nastya's email further
-            if(found.email === 'admin@gmail.com'){
+            if(found.email === AdminEmail){
                 req.session.role = 'admin'
             } else{
                 req.session.role = 'user'
