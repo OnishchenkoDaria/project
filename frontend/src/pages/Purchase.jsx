@@ -1,6 +1,7 @@
 import React from 'react';
 import "../styles/Form.css"
 import PaymentForm from '../components/PaymentForm';
+import Payment from '../components/Payment';
 
 const Purchase = () => {
   
@@ -10,7 +11,7 @@ const Purchase = () => {
       <p>Photoshoot 1</p>
       <p>Photoshoot 2</p>
       <p>Photoshoot 3</p>
-      <PaymentForm></PaymentForm>
+      <Payment />
     </div>
   );
 }

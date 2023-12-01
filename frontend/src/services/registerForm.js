@@ -77,10 +77,25 @@ const logOut = async () => {
     }
 }
 
+const hash = async() => {
+    const result = await axios.post(baseUrl + 'hashing');
+    try{
+        const { data, signature } = result.data;
+
+        console.log('Data:', data);
+        console.log('Signature:', signature);
+        return result.data
+    }
+    catch(err){
+        console.error('Error:', err);
+    }
+}
+
 
 export default{
     addUser: addUser,
     loginUser: loginUser,
     getUser: getUser,
-    logOut: logOut
+    logOut: logOut,
+    hash: hash
 }

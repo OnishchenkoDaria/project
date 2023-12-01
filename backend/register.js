@@ -6,6 +6,8 @@ const cors = require('cors')
 const bcrypt = require("bcrypt")
 //const { error } = require('console')
 const sessions = require('express-session');
+const payment = require('./payment')
+
 
 //header("Access-Control-Allow-Origin: http://localhost:5173");
 //creating our mysql database + connecting it with node (next function)
@@ -70,6 +72,8 @@ db.query(checkEmpty, (queryErr, results)=> {
     }
 })
 
+payment()
+
 const app = express();
 
 const corsOptions = {
@@ -80,7 +84,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-//session implementation
+//session implementation || future data hash
 const crypto = require('crypto');
 
 const generateSecretKey = () => {
@@ -269,6 +273,41 @@ app.post('/log-out', (req, res) => {
             return res.status(200).json({ message: 'session shut' })
         });
     }
+})
+
+const keys = require('./be-keys')
+
+app.post('/hashing', (req, res) => {
+
+    const private_key = keys.private
+    const public_key = keys.public
+    const json_string = {
+        "public_key": public_key,
+        "version": "3",
+        "action": "pay",
+        "amount": "3",
+        "currency": "UAH",
+        "description": "test",
+        "order_id": "00001"
+      };
+
+      const jsonString = JSON.stringify(json_string);
+      console.log(jsonString)
+      //encoding data
+      const data = Buffer.from(jsonString).toString('base64')
+      console.log(data)
+
+      //encoding signature
+      const sign_string = private_key + data + private_key
+      console.log(sign_string)
+      const hash = crypto.createHash('sha1').update(sign_string).digest('bin')
+      console.log(hash)
+      const signature = Buffer.from(hash).toString('base64')
+      console.log(signature)
+      const passData = {data: data , signature: signature}
+      console.log(passData.data)
+      console.log(passData.signature)
+      return res.status(200).json(passData)
 })
 
 const PORT = 3001

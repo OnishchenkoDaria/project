@@ -1,10 +1,9 @@
-import {Link} from "react-router-dom"
-import PathConstants from "../routes/pathConstants";
+
 import "../styles/Header.css"
-import axios from 'axios'
+
 const baseUrl = 'http://localhost:3001/'
 import React, { useEffect, useState } from 'react';
-import sha1 from 'crypto-js/sha1';
+//import sha1 from 'crypto-js/sha1';
 import keys from './keys'
 
 const PaymentForm = () => {
@@ -13,6 +12,20 @@ const PaymentForm = () => {
     data: '',
     signature: '',
   });
+
+  async function sha1(str) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+  
+    // Use the SubtleCrypto API to generate a SHA-1 hash
+    const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+  
+    // Convert the hash buffer to a hex string or any other representation you need
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    
+    return hashHex;
+  }
 
   useEffect(() => {
     const CheckProperties = () => {
@@ -38,18 +51,21 @@ const PaymentForm = () => {
       console.log("Signature String:", sign_string);
 
       
-      const sha1Hash = sha1(sign_string);
-      console.log(sha1Hash)
+      sha1(sign_string).then(hash => {
+        console.log(hash)
+        console.log(sha1Hash)
       
-      const base64Signature = btoa(sha1Hash);
-      console.log(base64Signature)
-      const signature = base64Signature;
-      console.log(signature)
+        const base64Signature = btoa(sha1Hash);
+        console.log(base64Signature)
+        const signature = base64Signature;
+        console.log(signature)
 
-      setFormData({
-        data,
-        signature,
-      });
+        setFormData({
+            data,
+            signature,
+        });
+      })
+      
     };
 
     // Call the function to set form data
