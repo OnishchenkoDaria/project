@@ -29,7 +29,7 @@ const Payment = () => {
 
   return (
     <>
-      <form method="POST" action="https://www.liqpay.ua/api/3/checkout" acceptCharset="utf-8">
+      <form method="POST" action="https://www.liqpay.ua/api/3/checkout" acceptCharset="utf-8" target="_blank">
         <input type="hidden" name="data" value={formData.data} />
         <input type="hidden" name="signature" value={formData.signature} />
         <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" alt="Pay with Liqpay" />
