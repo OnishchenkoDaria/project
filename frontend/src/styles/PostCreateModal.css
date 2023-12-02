@@ -1,0 +1,29 @@
+.post-creator {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-creator-content {
+    width: 500px;
+    height: autopx;
+    background-color: #fff;
+}
+
+.post-creator-header, .post-creator-footer {
+    padding: 10px;
+}
+
+.post-creator-body {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
