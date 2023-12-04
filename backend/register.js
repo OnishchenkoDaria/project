@@ -74,7 +74,7 @@ db.query(checkEmpty, (queryErr, results)=> {
 
 payment()
 
-const app = express();
+const registerRouter = express.Router();
 
 const corsOptions = {
     origin: 'http://localhost:5173',
@@ -82,7 +82,7 @@ const corsOptions = {
     methods: 'GET, POST, PUT, DELETE',  // allow specified HTTP methods
     allowedHeaders: 'Content-Type, *',  // allow specified headers
 };
-app.use(cors(corsOptions));
+registerRouter.use(cors(corsOptions));
 
 //session implementation || future data hash
 const crypto = require('crypto');
@@ -93,7 +93,7 @@ const generateSecretKey = () => {
 
 //console.log(generateSecretKey());
 
-app.use(
+registerRouter.use(
     sessions({
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 //for 24 hours
@@ -103,12 +103,12 @@ app.use(
         saveUninitialized: false,
     })
 )
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+registerRouter.use(express.json());
+registerRouter.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.json());
+registerRouter.use(bodyParser.json());
 
-app.get('/', (req,res) => {
+registerRouter.get('/', (req,res) => {
    res.send('<h1>Works</h1>')
 })
 
@@ -139,7 +139,7 @@ function deleteUserString(email){
 }
 
 //try to refactor it in further
-app.post('/add', (req,res) => {
+registerRouter.post('/add', (req,res) => {
     if(req.session.user){
         console.log('an active session is going')
         return res.status(409).json({ error: 'an active session exist' });
@@ -225,7 +225,7 @@ async function isMatch(FoundPassword, found, res, req){
     }
 }
 
-app.post('/log-in', (req,res) => {
+registerRouter.post('/log-in', (req,res) => {
     if(req.session.user){
         console.log('an active session is going')
         return res.status(409).json({ error: 'an active session exist' });
@@ -253,7 +253,7 @@ app.post('/log-in', (req,res) => {
         })
 })
 
-app.get('/user', (req,res)=> {
+registerRouter.get('/user', (req,res)=> {
     const user = req.session.user
     const role = req.session.role 
     console.log("user: " , user)
@@ -261,7 +261,7 @@ app.get('/user', (req,res)=> {
     res.json(({user , role }) || null)
 })
 
-app.post('/log-out', (req, res) => {
+registerRouter.post('/log-out', (req, res) => {
     if(!req.session.user){
         return res.status(409).json({ error: 'no active session to be shut' });
     } else{
@@ -277,7 +277,7 @@ app.post('/log-out', (req, res) => {
 
 const keys = require('./be-keys')
 
-app.post('/hashing', (req, res) => {
+registerRouter.post('/hashing', (req, res) => {
 
     const private_key = keys.private
     const public_key = keys.public
@@ -310,7 +310,4 @@ app.post('/hashing', (req, res) => {
       return res.status(200).json(passData)
 })
 
-const PORT = 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+module.exports = registerRouter

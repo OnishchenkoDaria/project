@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { format } from 'fecha' // Formatting date to SQL format
-import postService from '../services/postForm.js'
+import postService from '../services/posts.js'
 import '../styles/PostForm.css'
 
 const PostCreateForm = () => {

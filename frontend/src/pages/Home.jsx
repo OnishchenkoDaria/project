@@ -2,8 +2,8 @@ import React from 'react';
 import "../styles/Form.css"
 import {Link} from "react-router-dom"
 import PathConstants from "../routes/pathConstants";
+
 const Home = () => {
-  
   return (
 
     <div className="text">
