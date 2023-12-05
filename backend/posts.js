@@ -6,8 +6,8 @@ const cors = require('cors')
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '1111',
-    database: 'posts'
+    password: '',
+    database: 'users'
 })
 
 db.connect(err => {
@@ -15,19 +15,22 @@ db.connect(err => {
         throw err
     }
     console.log('MySQL Connected')
+
+    let createTable = `CREATE TABLE IF NOT EXISTS posts (
+        id INT NOT NULL AUTO_INCREMENT,
+        title VARCHAR(50) NOT NULL,
+        content VARCHAR(1000) NOT NULL,
+        date DATE NOT NULL,
+        likes INT NOT NULL DEFAULT 0,
+        views INT NOT NULL DEFAULT 0,
+        imageURL VARCHAR(255) NULL DEFAULT NULL,
+        PRIMARY KEY (id));;`
+    db.query(createTable, err => {
+        if (err) throw err
+    })
 })
 
-let createTable = `CREATE TABLE IF NOT EXISTS posts (
-    post_id INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(50) NOT NULL,
-    content VARCHAR(1000) NOT NULL,
-    date DATE NOT NULL,
-    likes INT NOT NULL DEFAULT 0,
-    preview_url VARCHAR(255) NULL DEFAULT NULL,
-    PRIMARY KEY (post_id));;`
-db.query(createTable, err => {
-    if (err) throw err
-})
+
 
 const postsRouter = express.Router()
 
@@ -58,7 +61,7 @@ postsRouter.get('/:id', (request, response) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './uploads')
+        cb(null, '../frontend/public')
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}_${Math.floor(Math.random() * 1000)}_${file.originalname}`)
@@ -69,8 +72,8 @@ const upload = multer({ storage: storage })
 
 postsRouter.post('/', upload.single('image'), (request, response) => {
     const { title, content, date } = request.body
-    const preview_url = './uploads/' +request.file.filename
-    const post = {title, content, date, preview_url}
+    const imageURL = '../../public/' +request.file.filename
+    const post = {title, content, date, imageURL}
     query = `INSERT INTO posts SET ?`
     db.query(query, post, (err, result) => {
         if (err) {
