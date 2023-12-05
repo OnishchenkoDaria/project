@@ -1,0 +1,12 @@
+.post-form-title {
+    width: 99%;
+    border: 1px solid;
+    padding-top: 0px;
+}
+
+textarea {
+    resize: none;
+    width: 99%;
+    height: 150px;
+    border: 1px solid;
+}
