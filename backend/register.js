@@ -36,7 +36,7 @@ let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCH
 });
 
 //adding admain user by default with data from unttracked credentails
-const credentials = require('../credentials')
+const credentials = require('./credentials')
 
 const AdminUsername = credentials.username
 const AdminPassword = credentials.password
@@ -288,7 +288,8 @@ registerRouter.post('/hashing', (req, res) => {
         "amount": "3",
         "currency": "UAH",
         "description": "test",
-        "order_id": "00001"
+        "order_id": "00004",
+        "result_url":"http://localhost:5173/"
       };
 
       const jsonString = JSON.stringify(json_string);
