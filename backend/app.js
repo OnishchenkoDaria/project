@@ -1,9 +1,9 @@
 const express = require('express')
 const app = express()
 
-const testRouter = require('./posts.js')
+const postRouter = require('./posts.js')
 const registerRouter = require('./register.js')
-app.use('/api/posts', testRouter)
+app.use('/api/posts', postRouter)
 app.use('/users', registerRouter)
 
 const PORT = 3001
