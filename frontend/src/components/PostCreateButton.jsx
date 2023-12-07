@@ -1,9 +1,17 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PostCreateModal from "./PostCreateModal.jsx"
 
-const PostCreateButton = () => {
-    const [showPostCreateModal, setShowPostCreateModal] = useState(false)    
+const PostCreateButton = ({ role }) => {
+    const [showPostCreateModal, setShowPostCreateModal] = useState(false)
+
+    const [isAdmin, setIsAdmin] = useState(false)
+    useEffect(() => {
+        setIsAdmin(role === 'admin')
+    }, [role])
+    if (!isAdmin) {
+        return null
+    }
 
     return (
         <>

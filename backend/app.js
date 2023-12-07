@@ -1,6 +1,12 @@
 const express = require('express')
 const app = express()
 
+const cors = require('cors')
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }));
+
 const postRouter = require('./posts.js')
 const registerRouter = require('./register.js')
 app.use('/api/posts', postRouter)
