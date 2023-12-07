@@ -24,7 +24,7 @@ const Post = ({ imageURL, title, content }) => {
     );
 }
 
-const PostShowBox = ({ posts }) => {
+const PostDisplayMain = ({ posts }) => {
   if (!posts || posts.length === 0) {
     return null
   }
@@ -33,7 +33,7 @@ const PostShowBox = ({ posts }) => {
         <Row className=''>
           {posts.slice(0, 3).map((post, index) => (
             <Col sm={12} md={4} key={index}>
-              {post && post.imageURL ? (
+              {post ? (
                 <Post 
                   imageURL={post.imageURL}
                   title={post.title}
@@ -49,4 +49,4 @@ const PostShowBox = ({ posts }) => {
     );
 }
 
-export default PostShowBox
+export default PostDisplayMain
