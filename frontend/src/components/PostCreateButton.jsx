@@ -1,21 +1,18 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import Button from 'react-bootstrap/Button'
 import PostCreateModal from "./PostCreateModal.jsx"
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-const PostCreateButton = ({ role }) => {
+const PostCreateButton = ({ isAdmin }) => {
     const [showPostCreateModal, setShowPostCreateModal] = useState(false)
-
-    const [isAdmin, setIsAdmin] = useState(false)
-    useEffect(() => {
-        setIsAdmin(role === 'admin')
-    }, [role])
     if (!isAdmin) {
         return null
     }
 
     return (
         <>
-        <button onClick={() => setShowPostCreateModal(true)}>Show post creator</button>
+        <Button onClick={() => setShowPostCreateModal(true)}>Post</Button>
         <PostCreateModal onClose={() => setShowPostCreateModal(false)} show={showPostCreateModal} />
         </>
     )
