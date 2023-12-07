@@ -57,8 +57,8 @@ const getUser = async () => {
     try{
         const user = result.data
         console.log('User:', user)
-    }catch(err){
-        console.error('Get User error:', err)
+    }catch(error){
+        console.error('Get User error:', error)
     }
 }
 
@@ -71,14 +71,15 @@ const logOut = async () => {
         console.log((await result).data.message)
         console.log('Logged out');
         return true
-    }catch(err){
-        console.error('Logout error:', err)
+    }catch(error){
+        console.error('Logout error:', error)
         return false
     }
 }
 
-const hash = async() => {
-    const result = await axios.post(baseUrl + 'hashing');
+const hash = async(value) => {
+    console.log(value)
+    const result = await axios.post(baseUrl + 'hashing', {value});
     try{
         const { data, signature } = result.data;
 
@@ -86,11 +87,51 @@ const hash = async() => {
         console.log('Signature:', signature);
         return result.data
     }
-    catch(err){
-        console.error('Error:', err);
+    catch(error){
+        if (error.response){
+            console.error('server send back an error status:', error.response.status);
+            console.error('error message from server:', error.response.data.error);
+        }
+        else if (error.request){
+            console.error('no response received from the server');
+        }
+        else{ 
+           console.error('error during request setup:', error.message);
+        }
     }
 }
 
+/*const clientServer = async() => {
+    await axios.post('https://www.liqpay.ua/api/3/checkout')
+    try{
+        console.log("payment redirect success")
+    }
+    catch(err){
+        console.log("error")
+        console.err(err.message)
+    }
+} */
+
+/*/const serverServer = async(par) => {
+   
+   
+        const liqPayURL = 'https://www.liqpay.ua/api/request?'
+        const data = par.data
+        console.log(data)
+        const signature = par.signature
+        console.log(signature)
+
+        await axios.post(liqPayURL + `data=${data}&signature=${signature}`)
+    try{ 
+        console.log('successfully paid')
+        /*await axios.post(baseUrl + 'payment' , par)
+        console.log('server server executed')
+        console.log(response.data)*/
+   /* } catch(err){
+        console.log('failed to pay')
+        console.err(err)
+    }
+}*/
 
 export default{
     addUser: addUser,
