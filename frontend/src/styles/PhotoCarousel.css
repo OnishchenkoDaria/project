@@ -1,0 +1,140 @@
+.photo-carousel-container {
+    margin: 40px;
+    background-color: #f8f8f8;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+}
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.custom-arrow {
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.custom-arrow:hover {
+    background-color: #555;
+}
+
+.custom-next-arrow {
+    right: 20px;
+}
+
+.custom-prev-arrow {
+    left: 20px;
+}
+
+.carousel-slider {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    padding: 0 5px;
+    margin: 0 5px;
+    box-sizing: border-box;
+}
+
+.carousel-image {
+    width: calc(100% - 20px);
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.carousel-image:hover {
+    transform: scale(1.1);
+}
+
+.slick-dots {
+    position: absolute;
+    bottom: 30px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slick-dots li {
+    margin: 0 10px;
+}
+
+.slick-dots li button {
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    background-color: transparent;
+    border: 2px solid #333;
+    border-radius: 50%;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.slick-dots li button:hover {
+    background-color: #333;
+    border-color: #333;
+    color: #fff;
+}
+
+.image-upload-container {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: auto;
+}
+
+h2 {
+    color: #333;
+}
+
+input[type="file"] {
+    margin: 10px 0;
+}
+
+.button-container-add {
+    display: flex;
+    justify-content: space-between;
+}
+
+.upload-button,
+.close-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #315931;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.close-button {
+    background-color: #7c403d;
+}
+
