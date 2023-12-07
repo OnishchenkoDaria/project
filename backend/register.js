@@ -261,6 +261,11 @@ registerRouter.get('/user', (req,res)=> {
     res.json(({user , role }) || null)
 })
 
+registerRouter.get('/get-role', (req, res) => {
+    const role = req.session.role
+    res.json(role)
+})
+
 registerRouter.post('/log-out', (req, res) => {
     if(!req.session.user){
         return res.status(409).json({ error: 'no active session to be shut' });

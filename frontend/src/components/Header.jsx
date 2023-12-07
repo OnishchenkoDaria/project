@@ -9,6 +9,8 @@ const Header = () => {
                 <p><Link to={PathConstants.HOME}>Homepage</Link></p>
                 <p><Link to={PathConstants.REGISTRATION}>Register</Link></p>
                 <p><Link to={PathConstants.LOGIN}>Login</Link></p>
+                <p><Link to={PathConstants.ACCOUNT}>Account</Link></p>
+                <p><Link to={PathConstants.BLOG}>Blog</Link></p>
             </div>
       </header>
     );

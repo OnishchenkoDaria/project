@@ -35,7 +35,10 @@ db.connect(err => {
 const postsRouter = express.Router()
 
 postsRouter.use(express.json());
-postsRouter.use (cors())
+postsRouter.use (cors({
+    origin: 'http://localhost:5173',
+    credentials: true,  // enable passing cookies, authorization headers, etc.
+}))
 
 postsRouter.get('/', (requset, response) => {
     const query = `SELECT * FROM posts ORDER BY date DESC`
