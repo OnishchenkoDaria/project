@@ -101,12 +101,13 @@ const hash = async(value) => {
     }
 }
 
-const paymentResult = async() => {
-    const result = await axios.post('http://localhost:3001/')
+const paymentTable = async() => {
+    const result = await axios.post(baseUrl+'get-table')
     try{
-        console.log(result.data.message)
+        console.log(result.data)
+        return result.data
         
-    }catch(error){
+    } catch(error){
         if (error.response){
             console.error('server send back an error status:', error.response.status);
             console.error('error message from server:', error.response.data.error);
@@ -120,43 +121,11 @@ const paymentResult = async() => {
     }
 }
 
-/*const clientServer = async() => {
-    await axios.post('https://www.liqpay.ua/api/3/checkout')
-    try{
-        console.log("payment redirect success")
-    }
-    catch(err){
-        console.log("error")
-        console.err(err.message)
-    }
-} */
-
-/*/const serverServer = async(par) => {
-   
-   
-        const liqPayURL = 'https://www.liqpay.ua/api/request?'
-        const data = par.data
-        console.log(data)
-        const signature = par.signature
-        console.log(signature)
-
-        await axios.post(liqPayURL + `data=${data}&signature=${signature}`)
-    try{ 
-        console.log('successfully paid')
-        /*await axios.post(baseUrl + 'payment' , par)
-        console.log('server server executed')
-        console.log(response.data)*/
-   /* } catch(err){
-        console.log('failed to pay')
-        console.err(err)
-    }
-}*/
-
 export default{
     addUser: addUser,
     loginUser: loginUser,
     getUser: getUser,
     logOut: logOut,
     hash: hash,
-    paymentResult: paymentResult
+    paymentTable: paymentTable
 }

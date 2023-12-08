@@ -1,23 +1,22 @@
 import React from 'react';
 import SessionButtons from '../components/SessionCheck';
-import { useEffect } from 'react';
-import userService from '../services/registerForm' 
+import PaymentTable from '../components/PaymentTable';
+import axios from 'axios';
+import PathConstants from '../routes/pathConstants';
+import { useNavigate } from 'react-router-dom'
 
 const Account = () => {
   
-  //userService.paymentResult()
-  /*useEffect(async() => {
-    const result = await userService.paymentResult()
-    try{
-      console.log(result)
-    }catch(err){
-
-    }
-  }, []);*/
-
+  const navigate = useNavigate();
+  axios.post('http://localhost:3001/users/session-hook')
+  .then(()=>console.log('welcome'))
+  .catch(() => {
+    navigate(PathConstants.LOGIN)
+  })
   return (
     <>
       <SessionButtons />
+      <PaymentTable />
     </>
   );
 }

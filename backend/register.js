@@ -35,7 +35,7 @@ let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCH
 });
 
 //orders table
-let orders = 'CREATE TABLE IF NOT EXISTS orders (id int AUTO_INCREMENT, price VARCHAR (255), email VARCHAR (255), PRIMARY KEY(id))'
+let orders = 'CREATE TABLE IF NOT EXISTS orders (id int AUTO_INCREMENT, price VARCHAR (255), email VARCHAR (255), date DATE, PRIMARY KEY(id))'
     db.query(orders, err => {
         if(err){
         throw err
@@ -270,6 +270,15 @@ registerRouter.get('/user', (req,res)=> {
     res.json(({user , role }) || null)
 })
 
+registerRouter.post('/session-hook', (req, res) => {
+    if(!req.session.user){
+        return res.status(409).json({ error: 'no active session, redirect' })
+    }
+    else{
+        return res.status(200).json({ message: 'active session exist'})
+    }
+})
+
 registerRouter.post('/log-out', (req, res) => {
     if(!req.session.user){
         return res.status(409).json({ error: 'no active session to be shut' });
@@ -285,17 +294,38 @@ registerRouter.post('/log-out', (req, res) => {
 })
 
 const keys = require('./be-keys')
+const { error } = require('console')
 
 registerRouter.addPayment = (price) => {
-    let post = {price: price, email:user_email}
+    const date = new Date()
+    const Today = date.toLocaleDateString('en-ca')
+    console.log(Today)
+    let post = {price: price, email:user_email, date: Today}
     let sql = `INSERT INTO orders SET ?`
     db.query(sql,post, (err)=>{
-        if(err){
-            throw err
+        if (err) {
+            return res.status(500).json({ error: 'server error' });
         }
         console.log('payment added!')
     })
 }
+
+registerRouter.post('/get-table', (req,res)=>{
+    if(!req.session.user){
+        return res.status(409).json({ error: 'no active session' });
+    } else{
+        const email = req.session.email
+        console.log(email)
+        let sql = `SELECT * FROM orders WHERE email ='${email}'`
+        db.query(sql, (err, result)=>{
+            if (err) {
+                return res.status(500).json({ error: 'server error' });
+            }
+            console.log(result)
+            return res.status(200).json(result);
+        })    
+    }
+})
 
 var user_email=''
 

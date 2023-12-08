@@ -11,8 +11,7 @@ const keys = require('./be-keys')
 const private_key = keys.private
 const crypto = require('crypto')
 
-app.post('/', (req,res)=> {
-   
+app.post('/', (req,res)=> {   
     const Recieved = req.body
     //console.log(JSON.stringify(Recieved))
     const dataRecieved = Recieved.data
