@@ -101,6 +101,15 @@ const hash = async(value) => {
     }
 }
 
+const paymentResult = async() => {
+    await axios.post('http://localhost:3001/')
+    try{
+
+    }catch(error){
+        
+    }
+}
+
 /*const clientServer = async() => {
     await axios.post('https://www.liqpay.ua/api/3/checkout')
     try{

@@ -321,8 +321,9 @@ registerRouter.post('/hashing', (req, res) => {
                 "amount": value,
                 "currency": "UAH",
                 "description": "test",
-                "order_id": "00028",
-                "result_url": "http://localhost:5173/"
+                "order_id": "00086",
+                "result_url": "http://localhost:5173/",
+                "server_url": "https://ant-maximum-blindly.ngrok-free.app/"
             };
 
             const jsonString = JSON.stringify(json_string);
@@ -352,7 +353,7 @@ registerRouter.post('/hashing', (req, res) => {
 
 registerRouter.post('/status', (req, res) => {
 
-    console.log("dfsfs")
+    console.log("user status post execute")
     const data = req.query.data
     console.log(data)
     /*const private_key = keys.private
