@@ -41,7 +41,7 @@ postsRouter.use (cors({
 }))
 
 postsRouter.get('/', (requset, response) => {
-    const query = `SELECT * FROM posts ORDER BY date DESC`
+    const query = `SELECT * FROM posts ORDER BY id DESC`
     db.query(query, (err, result) => {
         if (err) {
             response.status(500).send(`Can't get this post`)

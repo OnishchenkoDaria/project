@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import postService from '../services/posts.js'
 
-function PostCreate({ isAdmin }) {
+
+const PostCreate = ({ isAdmin, handleAddition }) => {
   const [show, setShow] = useState(false);
   const [postData, setPostData] = useState({
     title: '',
@@ -13,6 +14,7 @@ function PostCreate({ isAdmin }) {
     date: '',
     image: null,
   })
+  const [buttonIsDisabled, setButtonIsDisabled] = useState(true)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -34,7 +36,7 @@ function PostCreate({ isAdmin }) {
       ...postData,
       image: event.target.files[0]
     })
-    //console.log(postData)
+    setButtonIsDisabled(false)
   }
 
   const handleSubmit = (event) => {
@@ -53,8 +55,11 @@ function PostCreate({ isAdmin }) {
     console.log(post)
 
     // Sending object to the server
-    postService
-    .create(post)
+    const sendPost = async () => {
+      await postService.create(post)
+      handleAddition()
+    }
+    sendPost()
     
     // Clearing up
     setPostData({
@@ -63,6 +68,8 @@ function PostCreate({ isAdmin }) {
       date: '',
       image: null,
     })
+
+    handleClose()
   }
   return (
     <>
@@ -98,13 +105,14 @@ function PostCreate({ isAdmin }) {
                 placeholder={`What's on your mind?`}
                 value={postData.content}
                 onChange={handleInputChange}
-                maxLength={1000}/>
+                maxLength={1000}
+              />
             </Form.Group>
             <Form.Group>
-                <Button variant="primary" type='submit' className='mb-3'>
-                    Submit
-                </Button>
-                <Form.Control type="file" accept='image/*' name='image'onChange={handleImageChange}/>
+              <Form.Control type="file" accept='image/*' name='image'onChange={handleImageChange}/>
+              <Button variant="primary" type='submit' className='mt-3' disabled={buttonIsDisabled}>
+                Submit
+              </Button>
             </Form.Group>
           </Form>
         </Modal.Body>
