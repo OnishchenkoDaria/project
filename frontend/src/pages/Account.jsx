@@ -1,12 +1,19 @@
 import React from 'react';
 import SessionButtons from '../components/SessionCheck';
 import { useEffect } from 'react';
+import userService from '../services/registerForm' 
 
 const Account = () => {
   
-  useEffect(async() => {
-    //await  
-  }, []);
+  //userService.paymentResult()
+  /*useEffect(async() => {
+    const result = await userService.paymentResult()
+    try{
+      console.log(result)
+    }catch(err){
+
+    }
+  }, []);*/
 
   return (
     <>

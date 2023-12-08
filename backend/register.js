@@ -286,11 +286,24 @@ registerRouter.post('/log-out', (req, res) => {
 
 const keys = require('./be-keys')
 
+registerRouter.addPayment = (price) => {
+    let post = {price: price, email:user_email}
+    let sql = `INSERT INTO orders SET ?`
+    db.query(sql,post, (err)=>{
+        if(err){
+            throw err
+        }
+        console.log('payment added!')
+    })
+}
+
+var user_email=''
+
 registerRouter.post('/hashing', (req, res) => {
     if(!req.session.user){
         return res.status(409).json({ error: 'no active session' });
     } else{
-        const user_email = req.session.email
+        user_email = req.session.email
         console.log(user_email)
         const value = req.body.value
         console.log(value)
@@ -321,8 +334,8 @@ registerRouter.post('/hashing', (req, res) => {
                 "amount": value,
                 "currency": "UAH",
                 "description": "test",
-                "order_id": "00086",
-                "result_url": "http://localhost:5173/",
+                "order_id": latest_id,
+                "result_url": "http://localhost:5173/account-page",
                 "server_url": "https://ant-maximum-blindly.ngrok-free.app/"
             };
 
@@ -346,27 +359,6 @@ registerRouter.post('/hashing', (req, res) => {
             })
     }
 
-})
-
-//"result_url":"http://localhost:5173/",
-//"server_url":"http://localhost:3001/users/status"
-
-registerRouter.post('/status', (req, res) => {
-
-    console.log("user status post execute")
-    const data = req.query.data
-    console.log(data)
-    /*const private_key = keys.private
-    const recievedData = req.data
-    const recievedSignature = req.signature
-    const sha1 = crypto.createHash('sha1').update(private_key + recievedData + private_key).digest('bin')
-    const signature = Buffer.from(sha1).toString('base64')
-
-    if(recievedSignature === signature){
-        console.log(req.status)
-        console.log(res.status)
-        //the res operations to be written
-    }*/
 })
 
 module.exports = registerRouter

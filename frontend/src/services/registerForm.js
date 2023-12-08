@@ -102,11 +102,21 @@ const hash = async(value) => {
 }
 
 const paymentResult = async() => {
-    await axios.post('http://localhost:3001/')
+    const result = await axios.post('http://localhost:3001/')
     try{
-
-    }catch(error){
+        console.log(result.data.message)
         
+    }catch(error){
+        if (error.response){
+            console.error('server send back an error status:', error.response.status);
+            console.error('error message from server:', error.response.data.error);
+        }
+        else if (error.request){
+            console.error('no response received from the server');
+        }
+        else{ 
+           console.error('error during request setup:', error.message);
+        } 
     }
 }
 
@@ -147,5 +157,6 @@ export default{
     loginUser: loginUser,
     getUser: getUser,
     logOut: logOut,
-    hash: hash
+    hash: hash,
+    paymentResult: paymentResult
 }

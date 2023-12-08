@@ -34,25 +34,6 @@ const Payment = () => {
       console.error('Error fetching hash info:', error.message);
     }    
   };
-/*
-  const HandlePayment = async () => {
-    await userService.clientServer()
-    try{
-
-    }catch(err){
-
-    }
-  }
-*/
-  /*const ServerServer = async() => {
-    console.log("fsdfsdf")
-    try{
-      await userService.serverServer(formData)
-      console.log("1")
-    } catch(err){
-      console.log("2")
-    }
-  }*/
 
   return (
     <>
