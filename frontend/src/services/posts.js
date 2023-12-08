@@ -7,6 +7,8 @@ const getAll = async () => axios.get(baseUrl).then(response => response.data)
 
 const create = async (newPost) => axios.post(baseUrl, newPost).then(response => response.data)
 
+const deletePost = async (id) => axios.delete(baseUrl + `/${id}`).then(response => response.data)
+
 const update = async (id, newPost) => axios.put(`${baseUrl}/${id}`, newPost).then(response => response.data)
 
-export default { get, getAll, create, update }
+export default { get, getAll, create, deletePost, update }

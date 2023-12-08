@@ -88,7 +88,7 @@ postsRouter.post('/', upload.single('image'), (request, response) => {
 })
 
 postsRouter.patch('/:id', (request, response) => {
-    const query = `UPDATE posts SET ? WHERE post_id = ${request.params.id}`
+    const query = `UPDATE posts SET ? WHERE id = ${request.params.id}`
     const update = request.body
     db.query(query, update, (err, result) => {
         if (err) {
@@ -100,7 +100,7 @@ postsRouter.patch('/:id', (request, response) => {
 })
 
 postsRouter.delete('/:id', (request, response) => {
-    const query = `DELETE FROM posts WHERE post_id = ${request.params.id}`
+    const query = `DELETE FROM posts WHERE id = ${request.params.id}`
     db.query(query, (err, result) => {
         if (err) {
             response.status(500).send(`Post wasn't deleted`)
