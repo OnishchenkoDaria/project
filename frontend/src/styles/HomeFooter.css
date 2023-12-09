@@ -1,0 +1,38 @@
+.footer-container {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.footer-social a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Додаткові стилі можна додати за потреби */
