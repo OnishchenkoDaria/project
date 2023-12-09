@@ -15,6 +15,7 @@ import BlogList from "../components/BlogList";
 import Comments from "../components/Comments";
 import OrderButton from "../components/OrderButton";
 import Footer from "../components/Footer";
+import HomeHeader from '../components/HomeHeader.jsx';
 
 const Home = () => {
   const [isAdmin, setIsAdmin] = useState(false)
@@ -41,7 +42,7 @@ const Home = () => {
     </div>*/
 
     <div>
-            
+            <HomeHeader />
             <Navbar />
             <PhotoCarousel />
             <PhotographerExperience />
@@ -49,7 +50,6 @@ const Home = () => {
             <Comments />
             <OrderButton />
             
-
         </div>
   );
 }
