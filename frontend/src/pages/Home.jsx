@@ -12,7 +12,6 @@ import Navbar from "../components/Navbar";
 import PhotoCarousel from "../components/PhotoCarousel";
 import PhotographerExperience from "../components/PhotographerExperience";
 import BlogList from "../components/BlogList";
-import Comments from "../components/Comments";
 import OrderButton from "../components/OrderButton";
 import Footer from "../components/Footer";
 import HomeHeader from '../components/HomeHeader.jsx';
@@ -47,7 +46,6 @@ const Home = () => {
             <PhotoCarousel />
             <PhotographerExperience />
             <BlogList />
-            <Comments />
             <OrderButton />
             
         </div>
