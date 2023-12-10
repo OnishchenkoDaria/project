@@ -26,7 +26,7 @@ const Post = ({ imageURL, title, content }) => {
 
 const PostDisplayMain = ({ posts }) => {
   if (!posts || posts.length === 0) {
-    return null
+    return <div style={{marginTop: '40px', textAlign: 'center'}}>No posts yet</div>
   }
     return (
       <Container className='my-4'>

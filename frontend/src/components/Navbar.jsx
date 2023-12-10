@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import {Link} from "react-router-dom"
+import PathConstants from "../routes/pathConstants";
 
 const Navbar = () => {
     const [menuVisible, setMenuVisible] = useState(false);
@@ -18,8 +20,8 @@ const Navbar = () => {
     const menuStyle = {
         display: menuVisible ? 'block' : 'none',
         position: 'absolute',
-        top: '0%',
-        right: '76%',
+        top: '70px',
+        left: '19px',
         transform: 'translateX(0%)',
         background: 'rgba(0, 0, 0, 0.8)',
         color: '#fff',
@@ -57,11 +59,10 @@ const Navbar = () => {
 
 
             <div style={menuStyle}>
-                <div style={{ marginBottom: '0.5rem' }}>Роботи</div>
-                <div style={{ marginBottom: '0.5rem' }}>Резюме</div>
-                <div style={{ marginBottom: '0.5rem' }}>Блог</div>
-                <div style={{ marginBottom: '0.5rem' }}>Відгуки</div>
-                <div style={{ marginBottom: '0.5rem' }}>Контакти</div>
+                <p><Link to={PathConstants.HOME} style={{textDecoration: 'none', color: 'white'}}>Homepage</Link></p>
+                <p><Link to={PathConstants.REGISTRATION} style={{textDecoration: 'none', color: 'white'}}>Register</Link></p>
+                <p><Link to={PathConstants.LOGIN} style={{textDecoration: 'none', color: 'white'}}>Login</Link></p>
+                <p><Link to={PathConstants.BLOG} style={{textDecoration: 'none', color: 'white'}}>Blog</Link></p>
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ import "../styles/Form.css"
 import {Link} from "react-router-dom"
 import PathConstants from "../routes/pathConstants";
 import PostCreate from '../components/PostCreate.jsx'
-import PostDisplayMain from '../components/PostDisplayMain.jsx'
+import PostDisplayMain from '../components/PostDisplayMain.jsx';
 import postService from '../services/posts.js'
 import registerService from '../services/registerForm.js';
 import Header from '../components/Header';
@@ -12,9 +12,7 @@ import Navbar from "../components/Navbar";
 import PhotographerExperience from "../components/PhotographerExperience";
 import BlogList from "../components/BlogList";
 import OrderButton from "../components/OrderButton";
-import Footer from "../components/Footer";
 import HomeHeader from '../components/HomeHeader.jsx';
-import HomeFooter from '../components/HomeFooter.jsx'
 
 const Home = () => {
   const [isAdmin, setIsAdmin] = useState(false)
@@ -31,12 +29,12 @@ const Home = () => {
   return (
 
     <div>
-            <HomeHeader />
-            <Navbar />
-            <PhotographerExperience />
-            <BlogList />
+            {/* <HomeHeader /> */}
+            {/* <Navbar /> */}
             <OrderButton />
-            <HomeFooter />
+            <PhotographerExperience />
+            <PostDisplayMain />
+            <OrderButton />
             
         </div>
   );
