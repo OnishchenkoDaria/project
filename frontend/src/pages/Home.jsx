@@ -9,7 +9,6 @@ import postService from '../services/posts.js'
 import registerService from '../services/registerForm.js';
 import Header from '../components/Header';
 import Navbar from "../components/Navbar";
-import PhotoCarousel from "../components/PhotoCarousel";
 import PhotographerExperience from "../components/PhotographerExperience";
 import BlogList from "../components/BlogList";
 import OrderButton from "../components/OrderButton";
@@ -34,7 +33,6 @@ const Home = () => {
     <div>
             <HomeHeader />
             <Navbar />
-            <PhotoCarousel />
             <PhotographerExperience />
             <BlogList />
             <OrderButton />
