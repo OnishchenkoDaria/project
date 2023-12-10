@@ -29,18 +29,16 @@ const PostDisplayMain = ({ posts }) => {
     return null
   }
     return (
-      <Container className='my-4'>
+      <Container className='my-4 text-center'>
         <Row className=''>
           {posts.slice(0, 3).map((post, index) => (
             <Col sm={12} md={4} key={index}>
-              {post ? (
+              {post && (
                 <Post 
                   imageURL={post.imageURL}
                   title={post.title}
                   content={post.content} 
                 />
-              ) : (
-                <div>Invalid post data</div>
               )}
             </Col>
           ))}

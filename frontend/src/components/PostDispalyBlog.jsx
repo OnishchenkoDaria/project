@@ -6,7 +6,7 @@ import "../styles/PostCreateModal.css"
 
 const PostDisplayBlog = ({posts, isAdmin, handleChange}) => {
     return (
-      <Container lg={8}>
+      <Container lg={8} fluid='md'>
         <Row className='justify-content-center'>
           {posts.map((post, index) => {
             return (
