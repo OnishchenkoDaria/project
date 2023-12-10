@@ -19,11 +19,11 @@ const BlogList = () => {
             const data = await response.json();
 
             const blogsWithImages = await Promise.all(
-                data.result.map(async (blog) => {
-                    const imageResponse = await fetch(`http://localhost:3001/${blog.image}`);
+                data.map(async (post) => {
+                    const imageResponse = await fetch(post.imageURL);
                     const imageData = await imageResponse.blob();
                     const imageUrl = URL.createObjectURL(imageData);
-                    return {...blog, imageUrl};
+                    return {...post, imageUrl};
                 })
             );
 
@@ -118,7 +118,7 @@ const BlogList = () => {
                                 className="blog-image"
                                 style={{maxWidth: '100%'}}
                             />
-                            <p className="blog-date">Дата створення: {new Date(blog.createdAt).toLocaleString()}</p>
+                            <p className="blog-date">Дата створення: {new Date(blog.date).toLocaleDateString()}</p>
 
                         </li>
                     ))}
