@@ -2,24 +2,25 @@ import React, {useState, useEffect} from 'react';
 import "../styles/BlogList.css"
 import Modal from "react-modal";
 import axios from "axios";
+import { format } from 'fecha'
 
 const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
-        description: '',
-        text: '',
+        content: '',
+        date: '',
         image: null,
     });
     const fetchBlogs = async () => {
         try {
-            const response = await fetch('http://localhost:3010/blogs');
+            const response = await fetch('http://localhost:3001/api/posts');
             const data = await response.json();
 
             const blogsWithImages = await Promise.all(
                 data.result.map(async (blog) => {
-                    const imageResponse = await fetch(`http://localhost:3010/${blog.image}`);
+                    const imageResponse = await fetch(`http://localhost:3001/${blog.image}`);
                     const imageData = await imageResponse.blob();
                     const imageUrl = URL.createObjectURL(imageData);
                     return {...blog, imageUrl};
@@ -59,12 +60,12 @@ const BlogList = () => {
         e.preventDefault();
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
-        formDataToSend.append('description', formData.description);
-        formDataToSend.append('text', formData.text);
+        formDataToSend.append('content', formData.content);
+        formDataToSend.append('date', format(new Date(), 'YYYY-MM-DD'));
         formDataToSend.append('image', formData.image);
 
         try {
-            const response = await axios.post('http://localhost:3010/blogs', formDataToSend, {
+            const response = await axios.post('http://localhost:3001/api/posts', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -83,7 +84,7 @@ const BlogList = () => {
 
     const handleDelete = async (blogId) => {
         try {
-            const response = await axios.delete(`http://localhost:3010/blogs/${blogId}`);
+            const response = await axios.delete(`http://localhost:3001/api/posts/${blogId}`);
 
             if (response) {
                 fetchBlogs();
@@ -110,8 +111,7 @@ const BlogList = () => {
                                 onClick={() => handleDelete(blog.id)}
                             > &#10006; </div>
                             <h2 className="blog-title">{blog.title}</h2>
-                            <p className="blog-description">{blog.description}</p>
-                            <p className="blog-text">{blog.text}</p>
+                            <p className="blog-content">{blog.content}</p>
                             <img
                                 src={blog.imageUrl}
                                 alt={blog.title}
@@ -148,17 +148,8 @@ const BlogList = () => {
                         Опис:
                         <input
                             type="text"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                            className="input"
-                        />
-                    </label>
-                    <label className="label">
-                        Текст:
-                        <textarea
-                            name="text"
-                            value={formData.text}
+                            name="content"
+                            value={formData.content}
                             onChange={handleInputChange}
                             className="input"
                         />
