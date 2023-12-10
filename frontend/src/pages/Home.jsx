@@ -14,7 +14,7 @@ const Home = () => {
 
   const updateData = async () => {
     setIsAdmin(await registerService.getRole() === 'admin')
-    setPosts(await postService.getAll())
+    setPosts(await postService.getAllPosts())
   }
   useEffect(() => {
     updateData()

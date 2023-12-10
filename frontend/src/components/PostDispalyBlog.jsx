@@ -1,28 +1,10 @@
-import { useState, useEffect } from 'react' 
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import PostCard from "./PostCard"
-import postService from '../services/posts.js'
-import registerService from '../services/registerForm'
 import "../styles/PostCreateModal.css"
 
-const PostDisplayBlog = () => {
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [posts, setPosts] = useState([])
-
-    useEffect(() => {
-      const updateData = async () => {
-        setIsAdmin(await registerService.getRole() === 'admin')
-        setPosts(await postService.getAll())
-      }
-      updateData()
-    }, [])
-
-    const handleDeletePost = (id) => {
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
-    }
-
+const PostDisplayBlog = ({posts, isAdmin, handleChange}) => {
     return (
       <Container lg={8}>
         <Row className='justify-content-center'>
@@ -35,7 +17,7 @@ const PostDisplayBlog = () => {
                   title={post.title}
                   content={post.content}
                   isAdmin={isAdmin}
-                  onDelete={handleDeletePost}
+                  handleChange={handleChange}
                 />
               </Col>
             )

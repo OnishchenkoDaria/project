@@ -1,36 +1,19 @@
 import { useState } from 'react';
-import { format } from 'fecha'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import postService from '../services/posts.js'
 
 
-const PostCreate = ({ isAdmin, handleAddition }) => {
+const PostEditModal = ({ id, title, content, handleChange }) => {
   const [show, setShow] = useState(false);
   const [postData, setPostData] = useState({
-    title: '',
-    content: '',
-    date: '',
-    image: null,
+    title: title,
+    content: content,
   })
-  const [buttonIsDisabled, setButtonIsDisabled] = useState(true)
 
-  const handleClose = () => {
-    setShow(false)
-    setButtonIsDisabled(true)
-    setPostData({
-      title: '',
-      content: '',
-      date: '',
-      image: null,
-    })
-  };
+  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  if (!isAdmin) {
-    return null
-  }
 
   const handleInputChange = (event) => {
     setPostData({
@@ -39,45 +22,42 @@ const PostCreate = ({ isAdmin, handleAddition }) => {
     })
   }
 
-  const handleImageChange = (event) => {
-    setPostData({
-      ...postData,
-      image: event.target.files[0]
-    })
-    setButtonIsDisabled(false)
-  }
-
   const handleSubmit = (event) => {
     // Preventing page reloading
     event.preventDefault()
 
     // Creating object
-    const post = new FormData()
-    post.append('title', postData.title)
-    post.append('content', postData.content)
-    post.append('date', format(new Date(), 'YYYY-MM-DD'))
-    post.append('image', postData.image)
-
-    console.log(post)
-
-    // Sending object to the server
-    const sendPost = async () => {
-      await postService.createPost(post)
-      handleAddition()
-    }
-    sendPost()
+    const newPost = new FormData()
+    newPost.set('title', postData.title);
+    newPost.set('content', postData.content);
     
+    console.log('new post:', newPost.get('title'), newPost.get('content'))
+    // Sending object to the server
+    const updatePost = async () => {
+      await postService.updatePost(id, newPost)
+      handleChange()
+    }
+    updatePost()
+    
+    // Clearing up
+    setPostData({
+      title: '',
+      content: '',
+    })
+
     handleClose()
   }
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Create post
+      <Button variant="dark" onClick={handleShow}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+          <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+        </svg>
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Create post</Modal.Title>
+          <Modal.Title>Update post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} encType='multipart/form-data'>
@@ -97,7 +77,7 @@ const PostCreate = ({ isAdmin, handleAddition }) => {
               className='mb-3'
               controlId="PostCreate.ControlTextarea1"
             >
-              <Form.Label>Write your post:</Form.Label>
+              <Form.Label>Content:</Form.Label>
               <Form.Control as="textarea" rows={3} 
                 name='content'
                 placeholder={`What's on your mind?`}
@@ -106,12 +86,9 @@ const PostCreate = ({ isAdmin, handleAddition }) => {
                 maxLength={1000}
               />
             </Form.Group>
-            <Form.Group>
-              <Form.Control type="file" accept='image/*' name='image'onChange={handleImageChange}/>
-              <Button variant="primary" type='submit' className='mt-3' disabled={buttonIsDisabled}>
-                Submit
-              </Button>
-            </Form.Group>
+            <Button variant="primary" type='submit'>
+              Submit
+            </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -121,4 +98,4 @@ const PostCreate = ({ isAdmin, handleAddition }) => {
   );
 }
 
-export default PostCreate;
+export default PostEditModal;
