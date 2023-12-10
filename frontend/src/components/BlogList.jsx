@@ -128,6 +128,7 @@ const BlogList = () => {
             )}
             <Modal
                 isOpen={isModalOpen}
+                appElement={document.getElementById('root')}
                 onRequestClose={closeModal}
                 contentLabel="Додати блог"
             >
