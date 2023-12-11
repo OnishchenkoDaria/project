@@ -53,7 +53,7 @@ postsRouter.get('/', (requset, response) => {
 
 postsRouter.get('/:id', (request, response) => {
     const query = `SELECT * FROM posts WHERE id =${request.params.id}`
-    db.query(query, (err, result) => {a
+    db.query(query, (err, result) => {
         if (err) {
             response.status(500).send(`Can't get this post`)
             console.error('Error in GET:', err)
