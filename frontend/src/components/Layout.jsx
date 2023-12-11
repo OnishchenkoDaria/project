@@ -11,7 +11,7 @@ export default function Layout() {
         <>
             <HomeHeader />
             <Navbar/>
-            <main>
+            <main style={{height: '100vh'}}>
                 <Suspense fallback={<div>Loading..</div>}>
                     <Outlet/>
                 </Suspense>
