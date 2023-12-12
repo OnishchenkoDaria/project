@@ -37,8 +37,8 @@ const PostDisplayMain = () => {
   }
 
   return (
-    <Container className="my-4 text-center">
-      <Row className="">
+    <Container className="my-4">
+      <Row className="d-flex justify-content-center">
         {posts.slice(0, 3).map((post, index) => (
           <Col sm={12} md={4} key={index}>
             {post && (
