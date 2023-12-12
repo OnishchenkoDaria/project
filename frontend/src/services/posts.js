@@ -1,12 +1,14 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/api/posts'
 
-const get = async (id) => axios.get(`${baseUrl}/${id}`).then(response => response.data)
+const getPost = async (id) => axios.get(baseUrl + `/${id}`).then(response => response.data)
 
-const getAll = async () => axios.get(baseUrl).then(response => response.data)
+const getAllPosts = async () => axios.get(baseUrl).then(response => response.data)
 
-const create = async (newPost) => axios.post(baseUrl, newPost).then(response => response.data)
+const createPost = async (newPost) => axios.post(baseUrl, newPost).then(response => response.data)
 
-const update = async (id, newPost) => axios.put(`${baseUrl}/${id}`, newPost).then(response => response.data)
+const deletePost = async (id) => axios.delete(baseUrl + `/${id}`).then(response => response.data)
 
-export default { get, getAll, create, update }
+const updatePost = async (id, newPost) => axios.patch(baseUrl + `/${id}`, newPost).then(response => response.data)
+
+export default { getPost, getAllPosts, createPost, deletePost, updatePost }
