@@ -20,7 +20,7 @@ const Account = () => {
   })
   return(
     <>
-      <p>{hello}</p>
+      <h1 style={{textAlign: 'center'}}>{hello}</h1>
       <PaymentTable />
     </>
   );

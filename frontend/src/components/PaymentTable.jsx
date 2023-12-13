@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import userService from '../services/registerForm';
-import '../styles/Form.css';
+import Table from 'react-bootstrap/Table';
 
 const PaymentTable = () => {
   const [tableData, setTableData] = useState([]);
@@ -21,14 +21,14 @@ const PaymentTable = () => {
 
   return (
     <>
-      <div className='registration-form'>
-        <p>Processing data from liqpay server may take some time</p>
+      <div style={{textAlign: 'center'}}>
+        <p>Processing data from liqpay server may take some time, refresh page periodically</p>
         <h2>Your Orders</h2>
 
         {tableData.length === 0 ? (
           <p>No orders yet</p>
         ) : (
-          <table>
+          <Table>
             <thead>
               <tr>
                 <th>Price</th>
@@ -45,7 +45,7 @@ const PaymentTable = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         )}
       </div>
     </>
