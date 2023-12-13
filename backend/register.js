@@ -35,7 +35,7 @@ let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCH
 });
 
 //orders table
-let orders = 'CREATE TABLE IF NOT EXISTS orders (id int AUTO_INCREMENT, price VARCHAR (255), email VARCHAR (255), date DATE, PRIMARY KEY(id))'
+let orders = 'CREATE TABLE IF NOT EXISTS orders (id int AUTO_INCREMENT, price VARCHAR (255), email VARCHAR (255), date VARCHAR (255), PRIMARY KEY(id))'
     db.query(orders, err => {
         if(err){
         throw err
@@ -271,11 +271,13 @@ registerRouter.get('/user', (req,res)=> {
 })
 
 registerRouter.post('/session-hook', (req, res) => {
+    const userName = req.session.user
+    console.log(userName)
     if(!req.session.user){
         return res.status(409).json({ error: 'no active session, redirect' })
     }
     else{
-        return res.status(200).json({ message: 'active session exist'})
+        return res.status(200).json(userName)
     }
 })
 
@@ -298,7 +300,9 @@ const { error } = require('console')
 
 registerRouter.addPayment = (price) => {
     const date = new Date()
-    const Today = date.toLocaleDateString('en-ca')
+    const day = date.toLocaleDateString('en-ca', {hour12:false})
+    const time = date.toLocaleTimeString('en-US', {hour12:false})
+    const Today = day+' '+time
     console.log(Today)
     let post = {price: price, email:user_email, date: Today}
     let sql = `INSERT INTO orders SET ?`
