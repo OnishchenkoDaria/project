@@ -18,6 +18,7 @@ const NavbarHeader = () => {
             <Nav.Link as={Link} to={PathConstants.ACCOUNT}>Account</Nav.Link>
             <Nav.Link as={Link} to={PathConstants.REGISTRATION}>Register</Nav.Link>
             <Nav.Link as={Link} to={PathConstants.LOGIN}>Login</Nav.Link>
+            <Nav.Link as={Link} to={PathConstants.PAYMENT}>Buy Photoshoot</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

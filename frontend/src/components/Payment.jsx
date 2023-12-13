@@ -44,7 +44,7 @@ const Payment = () => {
           <Form.Check 
           type="radio"
           id="photoshoot-1"
-          label="1 hour"          
+          label="1 hour --- 1UAH"          
           name="photoshoot"
           value="1" 
           onChange={getPressed}
@@ -53,7 +53,7 @@ const Payment = () => {
           <Form.Check 
           type="radio"
           id="photoshoot-2"
-          label="2 hours"          
+          label="2 hours --- 2UAH"          
           name="photoshoot"
           value="2" 
           onChange={getPressed}
@@ -62,7 +62,7 @@ const Payment = () => {
           <Form.Check 
           type="radio"
           id="photoshoot-3"
-          label="2+ hours"          
+          label="2+ hours --- 3UAH"          
           name="photoshoot"
           value="3" 
           onChange={getPressed}

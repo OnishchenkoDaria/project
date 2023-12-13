@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import PathConstants from "../routes/pathConstants";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {Link} from "react-router-dom"
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const[message, setMessage]=useState()
 
   const [formInput, setFormInput] = useState({
     email: "",
@@ -28,10 +31,12 @@ const LoginForm = () => {
       }
       const UserInfo = new newUser();
 
-      const success = await userService.loginUser(UserInfo);
+      const feedback = await userService.loginUser(UserInfo);
       userService.getUser();
-      if (success) {
+      if (feedback.success===true) {
         navigate(PathConstants.ACCOUNT);
+      } else{
+        setMessage(feedback.message)
       }
     } catch (err) {
       console.log("error caught");
@@ -40,20 +45,25 @@ const LoginForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control className="input-field" name="email" value={formInput.email} onChange={handleChange} placeholder="Email" required />
-      </Form.Group>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control className="input-field" name="email" value={formInput.email} onChange={handleChange} placeholder="Email" required />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control name="password" value={formInput.password} onChange={handleChange} placeholder="Password" autoComplete='off' required />
-      </Form.Group>
-      <Button variant="dark" type="submit">
-        Submit
-      </Button>
-    </Form>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control name="password" value={formInput.password} onChange={handleChange} placeholder="Password" autoComplete='off' required />
+        </Form.Group>
+        <Button variant="dark" type="submit">
+          Submit
+        </Button>
+        <p className="mt-3">Do not have an account yet?<br/>
+        <Link to={PathConstants.REGISTRATION}>Register now</Link></p>
+      </Form> 
+      {message && <p className="text-danger">{message}*</p>}
+    </>
   );
 };
 export default LoginForm;

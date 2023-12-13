@@ -6,12 +6,14 @@ axios.defaults.crossDomain = true; // Enable cross-domain requests
 
 const addUser = async (newUser) => {
     const result = axios.post(baseUrl+'add', newUser)
-    
+    const feedback = {success:'',message:''}
     //if post call is success the next code is executed
     try{
-        console.log((await result).data.message)        
+        feedback.message=(await result).data.message
+        console.log(feedback.message)        
         console.log('The user created is ', newUser)
-        return true;
+        feedback.success=true
+        return feedback;
     }
 
     //if error is found (f.e. email duplication) - the following is executed
@@ -19,6 +21,7 @@ const addUser = async (newUser) => {
         if (error.response){
             console.error('server send back an error status:', error.response.status);
             console.error('error message from server:', error.response.data.error);
+            feedback.message=error.response.data.error
         }
         else if (error.request){
             console.error('no response received from the server');
@@ -26,21 +29,26 @@ const addUser = async (newUser) => {
         else{ 
            console.error('error during request setup:', error.message);
         }
-        return false;
+        feedback.success=false
+        return feedback;
     }     
 }
 
 const loginUser = async (newUser) => {
     const result = axios.post(baseUrl+'log-in', newUser)
+    const feedback = {success:'',message:''}
     try{
-        console.log((await result).data.message)
+        feedback.message = (await result).data.message
+        console.log(feedback.message)
         console.log('Successful login ', newUser)
-        return true
+        feedback.success=true
+        return feedback
     }
     catch(error){
         if (error.response){
             console.error('server send back an error status:', error.response.status);
             console.error('error message from server:', error.response.data.error);
+            feedback.message=error.response.data.error
         }
         else if (error.request){
             console.error('no response received from the server');
@@ -48,7 +56,8 @@ const loginUser = async (newUser) => {
         else{ 
            console.error('error during request setup:', error.message);
         }
-        return false
+        feedback.success = false
+        return feedback
     }
 }
 
