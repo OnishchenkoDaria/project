@@ -21,6 +21,7 @@ const Account = () => {
   return(
     <>
       <h1 style={{textAlign: 'center'}}>{hello}</h1>
+      <SessionButtons />
       <PaymentTable />
     </>
   );

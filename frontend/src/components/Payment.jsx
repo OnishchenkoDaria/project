@@ -1,6 +1,7 @@
 import "../styles/Header.css"
 import React, { useEffect, useState } from 'react';
 import userService from '../services/registerForm'
+import Form from 'react-bootstrap/Form'
 
 const Payment = () => {
   //state for the price chosen
@@ -37,16 +38,38 @@ const Payment = () => {
 
   return (
     <>
-      <form>
-        <p>Please select she photoshoot</p>
-        <p>photoshoot-1</p>
-        <input type="radio" id="photoshoot-1" name="photoshoot" value="1" onChange={getPressed}/>
-        <p >photoshoot-3</p>
-        <input type="radio" id="photoshoot-2" name="photoshoot" value="2" onChange={getPressed}/>
-        <p >photoshoot-3</p>
-        <input type="radio" id="photoshoot-3" name="photoshoot" value="3" onChange={getPressed}/>
-        <br/>
-      </form>
+      <Form>
+        <h1 className="mt-5">Please select she photoshoot duration</h1>
+        <div key={`default-radio`} className="mb-3">
+          <Form.Check 
+          type="radio"
+          id="photoshoot-1"
+          label="1 hour"          
+          name="photoshoot"
+          value="1" 
+          onChange={getPressed}
+          className="mt-3"
+          />
+          <Form.Check 
+          type="radio"
+          id="photoshoot-2"
+          label="2 hours"          
+          name="photoshoot"
+          value="2" 
+          onChange={getPressed}
+          className="mt-3"
+          />
+          <Form.Check 
+          type="radio"
+          id="photoshoot-3"
+          label="2+ hours"          
+          name="photoshoot"
+          value="3" 
+          onChange={getPressed}
+          className="mt-3"
+          />
+        </div>  
+      </Form>
 
       {buttonPressed && <form method="POST" action="https://www.liqpay.ua/api/3/checkout" acceptCharset="utf-8">
       <input type="hidden" name="data" value={formData.data}/>

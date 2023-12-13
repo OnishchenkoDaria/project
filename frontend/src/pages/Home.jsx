@@ -15,7 +15,9 @@ const Home = () => {
   return (
     <div className="d-block">
       <HomeHeader />
-      <PostCreate />
+      <div className="d-flex justify-content-center mt-5">
+        <PostCreate />
+      </div>
       <ImageCarousel />
       <Row className="d-flex justify-content-center">
         <Col sm={12} md={8}>

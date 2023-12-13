@@ -5,6 +5,11 @@ import Carousel from "react-bootstrap/Carousel";
 import Image from "react-bootstrap/Image";
 import Ratio from "react-bootstrap/Ratio";
 import "bootstrap/dist/css/bootstrap.min.css";
+import photo1 from "../assets/photo1.jpg"
+import photo2 from "../assets/photo2.jpg"
+import photo3 from "../assets/photo3.jpg"
+import photo4 from "../assets/photo4.jpg"
+import photo5 from "../assets/photo5.jpg"
 
 const TextWithBackground = ({ text }) => {
   return (
@@ -24,7 +29,7 @@ const CarouselImage = ({ imageURL }) => {
   return (
     <Ratio aspectRatio="16x9">
       <Image
-        src="https://placehold.co/600x400"
+        src={imageURL}
         fluid
         style={{ objectFit: "cover" }}
       />
@@ -39,28 +44,21 @@ function ImageCarousel() {
     setIndex(selectedIndex);
   };
 
+  const imageImports =[photo1, photo2, photo3, photo4, photo5]
+  const text = ['Model: @__kuzenka__','Model: @juli.fitbody','Model: @_minash','Models: @vitalii.perovskii & @valeria_nek', 'Model: @anastaceyk']
+
   return (
     <Row className="d-flex justify-content-center">
       <Col md={8} className="my-5">
         <Carousel activeIndex={index} onSelect={handleSelect}>
-          <Carousel.Item>
-            <CarouselImage />
-            <Carousel.Caption>
-              <TextWithBackground text="Nulla vitae elit libero, a pharetra augue mollis interdum." />
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <CarouselImage />
-            <Carousel.Caption>
-              <TextWithBackground text="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <CarouselImage />
-            <Carousel.Caption>
-              <TextWithBackground text="Praesent commodo cursus magna, vel scelerisque nisl consectetur." />
-            </Carousel.Caption>
-          </Carousel.Item>
+          {imageImports.map((imageUrl, idx) => (
+            <Carousel.Item key={idx}>
+                <CarouselImage imageURL={imageUrl}/>
+                  <Carousel.Caption>
+                    <TextWithBackground text={text[idx]} />
+                  </Carousel.Caption>
+             </Carousel.Item>
+          ))}
         </Carousel>
       </Col>
     </Row>
