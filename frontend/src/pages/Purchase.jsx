@@ -8,9 +8,6 @@ const Purchase = () => {
   return (
 
     <div className="text">
-      <p>Photoshoot 1</p>
-      <p>Photoshoot 2</p>
-      <p>Photoshoot 3</p>
       <Payment />
     </div>
   );

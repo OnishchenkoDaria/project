@@ -6,7 +6,6 @@ const cors = require('cors')
 const bcrypt = require("bcrypt")
 //const { error } = require('console')
 const sessions = require('express-session');
-const payment = require('./payment')
 
 
 //header("Access-Control-Allow-Origin: http://localhost:5173");
@@ -34,6 +33,16 @@ let table = 'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, name VARCH
         }
         console.log('users table created')
 });
+
+//orders table
+let orders = 'CREATE TABLE IF NOT EXISTS orders (id int AUTO_INCREMENT, price VARCHAR (255), email VARCHAR (255), date VARCHAR (255), PRIMARY KEY(id))'
+    db.query(orders, err => {
+        if(err){
+        throw err
+        }
+        console.log('orders table created')
+});
+
 
 //adding admain user by default with data from unttracked credentails
 const credentials = require('./credentials')
@@ -71,8 +80,6 @@ db.query(checkEmpty, (queryErr, results)=> {
         }
     }
 })
-
-payment()
 
 const registerRouter = express.Router();
 
@@ -178,6 +185,7 @@ registerRouter.post('/add', (req,res) => {
                 //success case
                 console.log('user added!')
                 req.session.user = post.name
+                req.session.email = post.email
                 if(post.email === AdminEmail){
                     req.session.role = 'admin'
                 } else {
@@ -204,6 +212,7 @@ async function isMatch(FoundPassword, found, res, req){
         console.log(Match)
         if(Match === true){
             req.session.user = found.name
+            req.session.email = found.email
             //replace with Nastya's email further
             if(found.email === AdminEmail){
                 req.session.role = 'admin'
@@ -261,6 +270,17 @@ registerRouter.get('/user', (req,res)=> {
     res.json(({user , role }) || null)
 })
 
+
+registerRouter.post('/session-hook', (req, res) => {
+    const userName = req.session.user
+    console.log(userName)
+    if(!req.session.user){
+        return res.status(409).json({ error: 'no active session, redirect' })
+    }
+    else{
+        return res.status(200).json(userName)
+    }
+
 registerRouter.get('/get-role', (req, res) => {
     const role = req.session.role
     res.json(role)
@@ -281,39 +301,103 @@ registerRouter.post('/log-out', (req, res) => {
 })
 
 const keys = require('./be-keys')
+const { error } = require('console')
+
+registerRouter.addPayment = (price) => {
+    const date = new Date()
+    const day = date.toLocaleDateString('en-ca', {hour12:false})
+    const time = date.toLocaleTimeString('en-US', {hour12:false})
+    const Today = day+' '+time
+    console.log(Today)
+    let post = {price: price, email:user_email, date: Today}
+    let sql = `INSERT INTO orders SET ?`
+    db.query(sql,post, (err)=>{
+        if (err) {
+            return res.status(500).json({ error: 'server error' });
+        }
+        console.log('payment added!')
+    })
+}
+
+registerRouter.post('/get-table', (req,res)=>{
+    if(!req.session.user){
+        return res.status(409).json({ error: 'no active session' });
+    } else{
+        const email = req.session.email
+        console.log(email)
+        let sql = `SELECT * FROM orders WHERE email ='${email}'`
+        db.query(sql, (err, result)=>{
+            if (err) {
+                return res.status(500).json({ error: 'server error' });
+            }
+            console.log(result)
+            return res.status(200).json(result);
+        })    
+    }
+})
+
+var user_email=''
 
 registerRouter.post('/hashing', (req, res) => {
+    if(!req.session.user){
+        return res.status(409).json({ error: 'no active session' });
+    } else{
+        user_email = req.session.email
+        console.log(user_email)
+        const value = req.body.value
+        console.log(value)
+        let post = `SELECT MAX(id) AS latest_id FROM orders`
+        db.query(post , (err, result) => {
+            if(err){
+                return res.status(500).json({ error: 'server error' })
+            }
+            var string = JSON.stringify(result);
+            var json = JSON.parse(string)
+            let latest_id = json[0].latest_id
+            console.log(latest_id)
+            if(latest_id === null){
+                latest_id = 1
+                console.log(latest_id)
+            }
+            else{
+                latest_id = latest_id + 1
+                console.log(latest_id)
+            }
+            
+            const private_key = keys.private
+            const public_key = keys.public
+            const json_string = {
+                "public_key": public_key,
+                "version": "3",
+                "action": "pay",
+                "amount": value,
+                "currency": "UAH",
+                "description": "test",
+                "order_id": latest_id,
+                "result_url": "http://localhost:5173/account-page",
+                "server_url": "https://ant-maximum-blindly.ngrok-free.app/"
+            };
 
-    const private_key = keys.private
-    const public_key = keys.public
-    const json_string = {
-        "public_key": public_key,
-        "version": "3",
-        "action": "pay",
-        "amount": "3",
-        "currency": "UAH",
-        "description": "test",
-        "order_id": "00004",
-        "result_url":"http://localhost:5173/"
-      };
+            const jsonString = JSON.stringify(json_string);
+            console.log(jsonString)
+            //encoding data
+            const data = Buffer.from(jsonString).toString('base64')
+            console.log(data)
 
-      const jsonString = JSON.stringify(json_string);
-      console.log(jsonString)
-      //encoding data
-      const data = Buffer.from(jsonString).toString('base64')
-      console.log(data)
+            //encoding signature
+            const sign_string = private_key + data + private_key
+            console.log(sign_string)
+            const hash = crypto.createHash('sha1').update(sign_string).digest('bin')
+            console.log(hash)
+            const signature = Buffer.from(hash).toString('base64')
+            console.log(signature)
+            const passData = {data: data , signature: signature}
+            console.log(passData.data)
+            console.log(passData.signature)
+            return res.status(200).json(passData)
+            })
+    }
 
-      //encoding signature
-      const sign_string = private_key + data + private_key
-      console.log(sign_string)
-      const hash = crypto.createHash('sha1').update(sign_string).digest('bin')
-      console.log(hash)
-      const signature = Buffer.from(hash).toString('base64')
-      console.log(signature)
-      const passData = {data: data , signature: signature}
-      console.log(passData.data)
-      console.log(passData.signature)
-      return res.status(200).json(passData)
 })
 
 module.exports = registerRouter
