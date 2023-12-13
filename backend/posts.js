@@ -41,7 +41,7 @@ postsRouter.use (cors({
 }))
 
 postsRouter.get('/', (requset, response) => {
-    const query = `SELECT * FROM posts ORDER BY date DESC`
+    const query = `SELECT * FROM posts ORDER BY id DESC`
     db.query(query, (err, result) => {
         if (err) {
             response.status(500).send(`Can't get this post`)
@@ -52,8 +52,8 @@ postsRouter.get('/', (requset, response) => {
 })
 
 postsRouter.get('/:id', (request, response) => {
-    const query = `SELECT * FROM posts WHERE post_id =${request.params.id}`
-    db.query(query, (err, result) => {a
+    const query = `SELECT * FROM posts WHERE id =${request.params.id}`
+    db.query(query, (err, result) => {
         if (err) {
             response.status(500).send(`Can't get this post`)
             console.error('Error in GET:', err)
@@ -87,9 +87,10 @@ postsRouter.post('/', upload.single('image'), (request, response) => {
     })
 })
 
-postsRouter.patch('/:id', (request, response) => {
-    const query = `UPDATE posts SET ? WHERE post_id = ${request.params.id}`
-    const update = request.body
+postsRouter.patch('/:id', upload.none(), (request, response) => {
+    const query = 'UPDATE posts SET title = ?, content = ? WHERE id = ?';
+    const update = [request.body.title, request.body.content, request.params.id]
+    console.log(update)
     db.query(query, update, (err, result) => {
         if (err) {
             response.status(500).send(`Update wasn't applied.`)
@@ -100,7 +101,7 @@ postsRouter.patch('/:id', (request, response) => {
 })
 
 postsRouter.delete('/:id', (request, response) => {
-    const query = `DELETE FROM posts WHERE post_id = ${request.params.id}`
+    const query = `DELETE FROM posts WHERE id = ${request.params.id}`
     db.query(query, (err, result) => {
         if (err) {
             response.status(500).send(`Post wasn't deleted`)
