@@ -33,7 +33,7 @@ const PostDisplayMain = () => {
   });
 
   if (!posts || posts.length === 0) {
-    return <div style={{ marginTop: "10px" }}>No posts yet</div>;
+    return <div style={{marginTop: '40px', textAlign: 'center'}}>No posts yet</div>
   }
 
   return (

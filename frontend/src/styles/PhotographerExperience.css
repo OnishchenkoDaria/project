@@ -1,0 +1,103 @@
+
+
+.photographer-experience {
+    background-color: #f8f8f8;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.experience-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-title {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.experience-text {
+    color: #666;
+    font-size: 1.3em;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.additional-info {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.info-text {
+    flex: 0 1 calc(33.33% - 20px);
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.photographer-experience {
+    background-color: #e0e0e0;
+    padding: 60px 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.experience-content {
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-title {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.experience-text {
+    color: #666;
+    font-size: 1.3em;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.additional-info {
+    margin-top: 30px;
+}
+
+.info-text {
+    color: #656565;
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    animation: fadeIn 1s forwards;
+}
