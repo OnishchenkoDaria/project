@@ -1,21 +1,19 @@
-import React from 'react';
-import "../styles/Form.css"
-import {Link} from "react-router-dom"
-import PathConstants from "../routes/pathConstants";
-import PostCreateButton from '../components/PostCreateButton.jsx'
+import React from "react";
+import PostDisplayMain from "../components/PostDisplayMain.jsx";
+import HomeHeader from "../components/HomeHeader.jsx";
+import PhotographerExperience from "../components/PhotographerExperience";
+import PostCreate from "../components/PostCreate.jsx";
+import "bootstrap/dist/css/bootstrap.min.css"
+
 const Home = () => {
   return (
-
-    <div className="text">
-      <button><Link to={PathConstants.PAYMENT}>BUY PHOTOSHOOT</Link></button>
-      <PostCreateButton />
-      <p> PAYMENT </p>
-      <p> BLOG </p>
-      <p> TEXT </p>
-      <p> CAROUSEL </p>
-      <p> PAYMENT </p>
+    <div className="d-block">
+      <HomeHeader />
+      <PostCreate />
+      <PhotographerExperience />
+      <PostDisplayMain />
     </div>
   );
-}
+};
 
 export default Home;

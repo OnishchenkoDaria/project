@@ -62,6 +62,8 @@ const getUser = async () => {
     }
 }
 
+const getRole = async() => await axios.get(baseUrl + 'get-role/').then(response => response.data)
+
 const logOut = async () => {
     console.log('1')
     const result = axios.post(baseUrl+'log-out')
@@ -125,6 +127,7 @@ export default{
     addUser: addUser,
     loginUser: loginUser,
     getUser: getUser,
+    getRole: getRole,
     logOut: logOut,
     hash: hash,
     paymentTable: paymentTable

@@ -65,7 +65,7 @@ const RegistrationForm = () => {
     
     return(
         <>
-        <form onSubmit={handleSubmit} className="registration-form">
+        <form onSubmit={handleSubmit}>
           <p>Registration</p>
           <input className="input-field" name="name" value={formInput.name} onChange={handleChange} placeholder="Name" required />
           <br/>

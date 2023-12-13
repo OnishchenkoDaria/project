@@ -1,20 +1,21 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
-import Footer from "./Footer";
 import { Suspense } from "react";
+import HomeFooter from "./HomeFooter";
+import NavbarHeader from "./NavbarHeader";
+import HomeHeader from "./HomeHeader";
 //header snd footer
-
 
 export default function Layout() {
     return(
         <>
-            <Header/>
-            <main>
+            <NavbarHeader />
+            <main style={{height: '100vh'}}>
                 <Suspense fallback={<div>Loading..</div>}>
                     <Outlet/>
                 </Suspense>
             </main>
-            <Footer/>
+            <HomeFooter />
         </>
     )
 }
