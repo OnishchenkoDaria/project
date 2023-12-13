@@ -3,6 +3,7 @@ import PostDisplayMain from "../components/PostDisplayMain.jsx";
 import HomeHeader from "../components/HomeHeader.jsx";
 import PhotographerExperience from "../components/PhotographerExperience";
 import PostCreate from "../components/PostCreate.jsx";
+import ImageCarousel from "../components/ImageCarousel.jsx"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 const Home = () => {
@@ -10,10 +11,10 @@ const Home = () => {
     <div className="d-block">
       <HomeHeader />
       <PostCreate />
+      <ImageCarousel />
       <PhotographerExperience />
       <PostDisplayMain />
     </div>
   );
 };
-
 export default Home;

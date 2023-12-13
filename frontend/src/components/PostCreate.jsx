@@ -77,7 +77,7 @@ const PostCreate = () => {
   };
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="dark" onClick={handleShow}>
         Create post
       </Button>
 
@@ -122,7 +122,7 @@ const PostCreate = () => {
                 onChange={handleImageChange}
               />
               <Button
-                variant="primary"
+                variant="dark"
                 type="submit"
                 className="mt-3"
                 disabled={buttonIsDisabled}

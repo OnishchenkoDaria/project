@@ -1,5 +1,4 @@
 import userService from '../services/registerForm'
-import "../styles/Form.css"
 import { useNavigate } from 'react-router-dom'
 import PathConstants from '../routes/pathConstants'
 

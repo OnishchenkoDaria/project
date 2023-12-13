@@ -41,7 +41,7 @@ function ImageCarousel() {
 
   return (
     <Row className="d-flex justify-content-center">
-      <Col md={8} >
+      <Col md={8} className="my-5">
         <Carousel activeIndex={index} onSelect={handleSelect}>
           <Carousel.Item>
             <CarouselImage />

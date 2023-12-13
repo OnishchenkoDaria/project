@@ -5,7 +5,7 @@ const Account = () => {
   
   return (
     <>
-      {/* <SessionButtons /> */}
+      <SessionButtons />
     </>
   );
 }

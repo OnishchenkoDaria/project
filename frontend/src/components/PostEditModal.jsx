@@ -105,7 +105,7 @@ const PostEditModal = ({ id }) => {
                 maxLength={1000}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="dark" type="submit">
               Submit
             </Button>
           </Form>

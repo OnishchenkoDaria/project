@@ -7,15 +7,15 @@ import HomeHeader from "./HomeHeader";
 //header snd footer
 
 export default function Layout() {
-    return(
-        <>
-            <NavbarHeader />
-            <main style={{height: '100vh'}}>
-                <Suspense fallback={<div>Loading..</div>}>
-                    <Outlet/>
-                </Suspense>
-            </main>
-            <HomeFooter />
-        </>
-    )
+  return (
+    <>
+      <NavbarHeader />
+      <main style={{ height: "100vh" }}>
+        <Suspense fallback={<div>Loading..</div>}>
+          <Outlet />
+        </Suspense>
+      </main>
+      {/*<HomeFooter />*/}
+    </>
+  );
 }
