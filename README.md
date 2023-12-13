@@ -21,4 +21,16 @@
 - 3 модали, які використовуються для відображення форм, постів.
 - 13 елементів керування.
 - 15 обробників подій.
+
+
+## Климова
+
+- frontend/src/components/BlogList.jsx - Використовується для відображення списку блогів/постів
+- frontend/src/components/Navbar.jsx - Панель з кнопкою меню
+- frontend/src/components/OrderButton.jsx - Кнопка "Замовити"
+- frontend/src/styles/HomeFooter.css - Нижня панель на головній сторінці
+- frontend/src/components/HomeHeader.jsx - Верхня панель на головній сторінці
+- frontend/src/components/BlogList.jsx - Список постів на головній сторінці
+- frontend/src/components/PhotographerExperience.jsx - Інформація про фотографа
+- frontend/src/pages/Home.jsx - Головний компонент головної сторінки, яка збирається з інших компонентів
   
