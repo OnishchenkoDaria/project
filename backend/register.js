@@ -280,6 +280,7 @@ registerRouter.post('/session-hook', (req, res) => {
     else{
         return res.status(200).json(userName)
     }
+})
 
 registerRouter.get('/get-role', (req, res) => {
     const role = req.session.role
