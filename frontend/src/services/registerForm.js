@@ -57,8 +57,8 @@ const getUser = async () => {
     try{
         const user = result.data
         console.log('User:', user)
-    }catch(err){
-        console.error('Get User error:', err)
+    }catch(error){
+        console.error('Get User error:', error)
     }
 }
 
@@ -73,14 +73,15 @@ const logOut = async () => {
         console.log((await result).data.message)
         console.log('Logged out');
         return true
-    }catch(err){
-        console.error('Logout error:', err)
+    }catch(error){
+        console.error('Logout error:', error)
         return false
     }
 }
 
-const hash = async() => {
-    const result = await axios.post(baseUrl + 'hashing');
+const hash = async(value) => {
+    console.log(value)
+    const result = await axios.post(baseUrl + 'hashing', {value});
     try{
         const { data, signature } = result.data;
 
@@ -88,11 +89,39 @@ const hash = async() => {
         console.log('Signature:', signature);
         return result.data
     }
-    catch(err){
-        console.error('Error:', err);
+    catch(error){
+        if (error.response){
+            console.error('server send back an error status:', error.response.status);
+            console.error('error message from server:', error.response.data.error);
+        }
+        else if (error.request){
+            console.error('no response received from the server');
+        }
+        else{ 
+           console.error('error during request setup:', error.message);
+        }
     }
 }
 
+const paymentTable = async() => {
+    const result = await axios.post(baseUrl+'get-table')
+    try{
+        console.log(result.data)
+        return result.data
+        
+    } catch(error){
+        if (error.response){
+            console.error('server send back an error status:', error.response.status);
+            console.error('error message from server:', error.response.data.error);
+        }
+        else if (error.request){
+            console.error('no response received from the server');
+        }
+        else{ 
+           console.error('error during request setup:', error.message);
+        } 
+    }
+}
 
 export default{
     addUser: addUser,
@@ -100,5 +129,6 @@ export default{
     getUser: getUser,
     getRole: getRole,
     logOut: logOut,
-    hash: hash
+    hash: hash,
+    paymentTable: paymentTable
 }
